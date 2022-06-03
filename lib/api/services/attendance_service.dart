@@ -11,15 +11,17 @@ class AttendanceService {
         );
   }
 
-  Future<Response<dynamic>> saveStartShift() {
+  Future<Response<dynamic>> saveStartShift(jsonObject) {
     return DioSingleton().getDio().post(
           "api/Inner/SaveStartShift",
+      data: jsonObject,
         );
   }
 
-  Future<Response<dynamic>> saveEndShift() {
+  Future<Response<dynamic>> saveEndShift(jsonObject) {
     return DioSingleton().getDio().post(
           "api/Inner/SaveEndShift",
+      data: jsonObject
         );
   }
 }

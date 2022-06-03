@@ -16,11 +16,8 @@ class DailyAttendanceController extends GetxController {
   var startBtnEnabled = true.obs;
   var endBtnEnabled = true.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
+  Rx<WorkActivityItem> selectedWorkActivity =
+      WorkActivityItem(id: null, name: "שדה פעילות").obs;
 
   void _getAttendanceDaily() async {
     isLoading.value = true;
@@ -37,6 +34,16 @@ class DailyAttendanceController extends GetxController {
             AttendanceDailyResponse.fromJson(res.data);
 
         attendanceDaily.value = attendanceDailyResponse;
+
+        for (int i = 0;
+            i < attendanceDaily.value.workActivityItems!.length;
+            i++) {
+          if (attendanceDaily.value.workActivityItems![i].id ==
+              attendanceDaily.value.workActivityCode) {
+            selectedWorkActivity.value =
+                attendanceDaily.value.workActivityItems![i];
+          }
+        }
 
         responseResult.value = attendanceDaily.value.result ?? false;
         responseMsg.value = attendanceDaily.value.message ?? "";
@@ -58,7 +65,10 @@ class DailyAttendanceController extends GetxController {
   void _saveStartShift() async {
     isLoading.value = true;
 
-    DioSingleton().getAttendanceService().saveStartShift().then((res) {
+    Map<String, dynamic> map = {};
+    map["workActivityCode"] = selectedWorkActivity.value.id;
+
+    DioSingleton().getAttendanceService().saveStartShift(map).then((res) {
       isLoading.value = false;
 
       if (res.statusCode != null &&
@@ -87,7 +97,10 @@ class DailyAttendanceController extends GetxController {
   void _saveEndShift() async {
     isLoading.value = true;
 
-    DioSingleton().getAttendanceService().saveEndShift().then((res) {
+    Map<String, dynamic> map = {};
+    map["workActivityCode"] = selectedWorkActivity.value.id;
+
+    DioSingleton().getAttendanceService().saveEndShift(map).then((res) {
       isLoading.value = false;
 
       if (res.statusCode != null &&
@@ -140,10 +153,13 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("שלום ${getLoggedInUser().firstName}", style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                          decoration: TextDecoration.underline),),
+                      Text(
+                        "שלום ${getLoggedInUser().firstName}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            decoration: TextDecoration.underline),
+                      ),
                       Text(
                         "נוכחות יומית ${controller.attendanceDaily.value.currentDate}",
                         style: TextStyle(
@@ -164,15 +180,71 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
                                       color: Colors.white),
                             )
                           : SizedBox.shrink(),
-                      SizedBox(height: 20.0,),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      (controller.attendanceDaily.value.displayWorkActivity ??
+                              false)
+                          ? DropdownButtonFormField(
+                              hint: Text(
+                                  controller.selectedWorkActivity.value.name ??
+                                      "שדה פעילות"),
+                              isExpanded: true,
+                              iconSize: 30.0,
+                              style:
+                                  TextStyle(color: CustomColors.colorSecondary),
+                              items: controller
+                                  .attendanceDaily.value.workActivityItems!
+                                  .map(
+                                (val) {
+                                  return DropdownMenuItem<WorkActivityItem>(
+                                    value: val,
+                                    child: Text(val.name!),
+                                  );
+                                },
+                              ).toList(),
+                              onChanged: (WorkActivityItem? val) {
+                                controller.selectedWorkActivity.value = val!;
+                              },
+                              decoration: const InputDecoration(
+                                hintText: "תיאור",
+                                contentPadding: EdgeInsets.all(10.0),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: CustomColors.colorSecondary),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: CustomColors.colorSecondary),
+                                ),
+                                focusColor: CustomColors.colorSecondary,
+                                hintStyle: TextStyle(
+                                    color: CustomColors.colorSecondary),
+                              ),
+                            )
+                          : SizedBox.shrink(),
+                      SizedBox(
+                        height: 20.0,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ElevatedButton(
                             style: ButtonStyle(
                                 elevation: MaterialStateProperty.all(5.0),
-                                padding: MaterialStateProperty.all(EdgeInsets.all(10.0))),
-                            onPressed: controller.startBtnEnabled.value
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.all(10.0))),
+                            onPressed: controller.startBtnEnabled.value &&
+                                    (!(controller.attendanceDaily.value
+                                            .displayWorkActivity ??
+                                        false) ||
+                                            controller.selectedWorkActivity
+                                                    .value.id !=
+                                                null)
+
+                            // onPressed: (!(controller.attendanceDaily.value.displayWorkActivity ?? false)
+                            //     && controller.startBtnEnabled.value) ||
+
                                 ? () => controller._saveStartShift()
                                 : null,
                             child: Text(
@@ -185,8 +257,18 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
                           ElevatedButton(
                             style: ButtonStyle(
                                 elevation: MaterialStateProperty.all(5.0),
-                                padding: MaterialStateProperty.all(EdgeInsets.all(10.0))),
-                            onPressed: controller.endBtnEnabled.value
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.all(10.0))),
+                            onPressed: controller.endBtnEnabled.value  &&
+                                (!(controller.attendanceDaily.value
+                                    .displayWorkActivity ??
+                                    false) ||
+                                    controller.selectedWorkActivity
+                                        .value.id !=
+                                        null)
+
+                            // onPressed: (!(controller.attendanceDaily.value.displayWorkActivity ?? false)
+                            //             && controller.endBtnEnabled.value)
                                 ? () => controller._saveEndShift()
                                 : null,
                             child: Text(

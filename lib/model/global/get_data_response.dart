@@ -285,11 +285,11 @@ class FamilyStatusTypes {
 
 class DocumentTypes {
   DocumentTypes({
-    required this.id,
-    required this.name,
+    this.id,
+    this.name,
   });
-  late final int id;
-  late final String name;
+  int? id;
+  String? name;
 
   DocumentTypes.fromJson(Map<String, dynamic> json){
     id = json['id'];
@@ -306,11 +306,11 @@ class DocumentTypes {
 
 class HmoTypes {
   HmoTypes({
-    required this.id,
-    required this.name,
+    id,
+    name,
   });
-  late final int id;
-  late final String name;
+  int? id;
+  String? name;
 
   HmoTypes.fromJson(Map<String, dynamic> json){
     id = json['id'];
@@ -516,11 +516,11 @@ class HebYears {
 
 class Banks {
   Banks({
-    required this.id,
-    required this.name,
+    id,
+    name,
   });
-  late final String id;
-  late final String name;
+  String? id;
+  String? name;
 
   Banks.fromJson(Map<String, dynamic> json){
     id = json['id'];

@@ -6,14 +6,20 @@ class AttendanceDailyResponse {
   final bool? result;
   final String? message;
 
-  AttendanceDailyResponse({
-    this.currentDate,
-    this.enabled,
-    this.latestStartTime,
-    this.latestEndTime,
-    this.result,
-    this.message,
-  });
+  final int? workActivityCode;
+  final bool? displayWorkActivity;
+  final List<WorkActivityItem>? workActivityItems;
+
+  AttendanceDailyResponse(
+      {this.currentDate,
+      this.enabled,
+      this.latestStartTime,
+      this.latestEndTime,
+      this.result,
+      this.message,
+      this.workActivityCode,
+      this.displayWorkActivity,
+      this.workActivityItems});
 
   factory AttendanceDailyResponse.fromJson(Map<String, dynamic> parsedJson) {
     return AttendanceDailyResponse(
@@ -23,6 +29,28 @@ class AttendanceDailyResponse {
       latestEndTime: parsedJson['latestEndTime'],
       result: parsedJson['result'],
       message: parsedJson['message'],
+      workActivityCode: parsedJson['workActivityCode'],
+      displayWorkActivity: parsedJson['displayWorkActivity'],
+      workActivityItems: List.from(parsedJson['workActivityItems'])
+          .map((e) => WorkActivityItem.fromJson(e))
+          .toList(),
+    );
+  }
+}
+
+class WorkActivityItem {
+  final int? id;
+  final String? name;
+
+  WorkActivityItem({
+    this.id,
+    this.name,
+  });
+
+  factory WorkActivityItem.fromJson(Map<String, dynamic> parsedJson) {
+    return WorkActivityItem(
+      id: parsedJson['id'],
+      name: parsedJson['name'],
     );
   }
 }
