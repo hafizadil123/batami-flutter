@@ -86,8 +86,6 @@ class SaveDocumentController extends GetxController {
                 middleText: resultMessageResponse.message ?? "")
             .then((value) {
           if (resultMessageResponse.result ?? false) {
-            // Get.off(() => DailyAttendanceScreen(),
-            //     binding: DailyAttendanceBinding());
             Get.toNamed('/daily_attendance');
           }
         });

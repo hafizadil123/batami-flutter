@@ -54,23 +54,47 @@ class ApartmentFaultDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = this.id;
-    data['apartmentName'] = this.apartmentName;
     data['faultCategoryTypeCode'] = this.faultCategoryTypeCode;
     data['faultTypeCode'] = this.faultTypeCode;
     data['isRecurring'] = this.isRecurring;
     data['occurrenceDate'] = this.occurrenceDate;
-    data['statusName'] = this.statusName;
-    data['faultDescription'] = this.faultDescription;
-    data['location'] = this.location;
-    data['handleDescription'] = this.handleDescription;
-    data['handleDate'] = this.handleDate;
-    data['apartmentFaultTypeName'] = this.apartmentFaultTypeName;
-    data['creator'] = this.creator;
-    data['handler'] = this.handler;
-    data['result'] = this.result;
-    data['message'] = this.message;
+
+    if(apartmentName!=null){
+      data['apartmentName'] = this.apartmentName;}
+    if(statusName!=null) {
+      data['statusName'] = this.statusName;
+    }
+
+    if(faultDescription!=null) {
+      data['faultDescription'] = this.faultDescription;
+    }
+
+    if(location!=null) {
+      data['location'] = this.location;
+    }
+    if(handleDescription!=null) {
+      data['handleDescription'] = this.handleDescription;
+    }
+    if(handleDate!=null) {
+      data['handleDate'] = this.handleDate;
+    }
+    if(apartmentFaultTypeName!=null) {
+      data['apartmentFaultTypeName'] = this.apartmentFaultTypeName;
+    }
+    if(creator!=null) {
+      data['creator'] = this.creator;
+    }
+    if(handler!=null) {
+      data['handler'] = this.handler;
+    }
+    if(result!=null) {
+      data['result'] = this.result;
+    }
+    if(message!=null) {
+      data['message'] = this.message;
+    }
     return data;
   }
 }

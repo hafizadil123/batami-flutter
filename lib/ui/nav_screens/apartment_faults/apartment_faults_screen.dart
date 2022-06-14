@@ -1,14 +1,10 @@
-import 'package:batami/api/dio_singleton.dart';
-import 'package:batami/controllers/apartment_faults_controller.dart';
+import 'package:batami/controllers/apartment_faults/apartment_faults_controller.dart';
 import 'package:batami/helpers/custom_colors.dart';
 import 'package:batami/helpers/utils.dart';
 import 'package:batami/model/apartment_fault/apartment_faults_response.dart';
-import 'package:batami/model/attendance/attendance_daily_response.dart';
-import 'package:batami/model/attendance/save_shift_response.dart';
 import 'package:batami/widgets/drawer_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class ApartmentFaultsScreen extends GetView<ApartmentFaultsController> {
   const ApartmentFaultsScreen({Key? key}) : super(key: key);
@@ -24,7 +20,9 @@ class ApartmentFaultsScreen extends GetView<ApartmentFaultsController> {
           titleTextStyle: TextStyle(fontSize: 15.0),
           title: Text("דירה"),
           actions: [
-            IconButton(onPressed: (){}, icon: const Icon(Icons.add))
+            IconButton(onPressed: (){
+              controller.getApartmentFaultDetails(0);
+            }, icon: const Icon(Icons.add))
           ],
         ),
         body: Obx(

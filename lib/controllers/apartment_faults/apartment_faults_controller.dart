@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:batami/api/dio_singleton.dart';
 import 'package:batami/helpers/custom_colors.dart';
 import 'package:batami/helpers/utils.dart';
@@ -66,7 +68,7 @@ class ApartmentFaultsController extends GetxController {
                 middleText: resultMessageResponse.message ?? "")
             .then((value) {
           if (resultMessageResponse.result ?? false) {
-            Get.toNamed('/daily_attendance');
+            Get.offNamed('/apartment_faults');
           }
         });
       }
@@ -96,7 +98,12 @@ class ApartmentFaultsController extends GetxController {
         ApartmentFaultDetails apartmentFaultDetailsResponse =
             ApartmentFaultDetails.fromJson(res.data);
 
-        showApartmentFaultDetailsDialog(apartmentFaultDetailsResponse);
+        if (id != 0) {
+          showApartmentFaultDetailsDialog(apartmentFaultDetailsResponse);
+        } else {
+          Get.toNamed('/add_apartment_fault',
+              arguments: [apartmentFaultDetailsResponse]);
+        }
       }
     }).catchError((error) {
       print(error);
@@ -121,31 +128,36 @@ class ApartmentFaultsController extends GetxController {
   }
 
   void showApartmentFaultDetailsDialog(ApartmentFaultDetails faultDetails) {
-    Get.dialog(Scaffold(
-        appBar: AppBar(title: Text("פירוט תקלות הדירה"),
+    Get.dialog(
+      Scaffold(
+        appBar: AppBar(
+          title: Text("פירוט תקלות הדירה"),
           backgroundColor: CustomColors.colorMain,
-          titleTextStyle: TextStyle(fontSize: 15.0),),
+          titleTextStyle: TextStyle(fontSize: 15.0),
+        ),
         body: SingleChildScrollView(
           child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const SizedBox(height: 20.0,),
-            textWithHeading("מספר תקלה", "${faultDetails.id}"),
-            textWithHeading("שם הדירה", faultDetails.apartmentName),
-            textWithHeading("סטטוס תקלה", faultDetails.statusName),
-            textWithHeading("סוג תקלה", faultDetails.apartmentFaultTypeName),
-            textWithHeading("תאריך התרחשות", faultDetails.occurrenceDate),
-            textWithHeading("האם תקלה חוזרת", "${faultDetails.isRecurring}"),
-            textWithHeading("תיאור תקלה", faultDetails.faultDescription),
-            textWithHeading("מיקום", faultDetails.location),
-            textWithHeading("תאריך טיפול", faultDetails.handleDate),
-            textWithHeading("תיאור טיפול", faultDetails.handleDescription),
-            textWithHeading("פותח תקלה", faultDetails.creator),
-            textWithHeading("סוגר תקלה", faultDetails.handler),
-          ],
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const SizedBox(
+                height: 20.0,
+              ),
+              textWithHeading("מספר תקלה", "${faultDetails.id}"),
+              textWithHeading("שם הדירה", faultDetails.apartmentName),
+              textWithHeading("סטטוס תקלה", faultDetails.statusName),
+              textWithHeading("סוג תקלה", faultDetails.apartmentFaultTypeName),
+              textWithHeading("תאריך התרחשות", faultDetails.occurrenceDate),
+              textWithHeading("האם תקלה חוזרת", "${faultDetails.isRecurring}"),
+              textWithHeading("תיאור תקלה", faultDetails.faultDescription),
+              textWithHeading("מיקום", faultDetails.location),
+              textWithHeading("תאריך טיפול", faultDetails.handleDate),
+              textWithHeading("תיאור טיפול", faultDetails.handleDescription),
+              textWithHeading("פותח תקלה", faultDetails.creator),
+              textWithHeading("סוגר תקלה", faultDetails.handler),
+            ],
+          ),
         ),
-        ),
-    ),
+      ),
       barrierColor: Colors.white,
     );
   }
