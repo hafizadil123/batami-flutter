@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.batami.mobile.batami">
+    package="com.batami.mobile.batami"
+    android:installLocation="preferExternal"
+    >
 
 
     <uses-permission android:name="android.permission.INTERNET" />

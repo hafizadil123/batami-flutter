@@ -1,8 +1,5 @@
-import 'dart:io';
-
+import 'package:batami/api/dio_singleton.dart';
 import 'package:dio/dio.dart';
-
-import '../dio_singleton.dart';
 
 class AuthService {
   Future<Response<dynamic>> login(jsonObject) {

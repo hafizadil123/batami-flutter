@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:batami/api/services/apartment_faults_service.dart';
 import 'package:batami/api/services/attendance_service.dart';
 import 'package:batami/api/services/document_service.dart';
 import 'package:batami/api/services/global_service.dart';
@@ -71,5 +72,9 @@ class DioSingleton {
 
   GlobalService getGlobalService() {
     return GlobalService();
+  }
+
+  ApartmentFaultsService getApartmentFaultsService() {
+    return ApartmentFaultsService();
   }
 }

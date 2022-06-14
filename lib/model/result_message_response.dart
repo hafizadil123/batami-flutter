@@ -9,8 +9,8 @@ class ResultMessageResponse {
 
   factory ResultMessageResponse.fromJson(Map<String, dynamic> parsedJson) {
     return ResultMessageResponse(
-      result: parsedJson['Result'],
-      message: parsedJson['Message'],
+      result: parsedJson['result'],
+      message: parsedJson['message'],
     );
   }
 }

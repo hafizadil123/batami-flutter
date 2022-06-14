@@ -1,5 +1,5 @@
+import 'package:batami/api/dio_singleton.dart';
 import 'package:dio/dio.dart';
-import '../dio_singleton.dart';
 
 class GlobalService{
   Future<Response<dynamic>> getData() {

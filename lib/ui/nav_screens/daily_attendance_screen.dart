@@ -1,140 +1,17 @@
-import 'package:batami/api/dio_singleton.dart';
+import 'package:batami/controllers/daily_attendance_controller.dart';
 import 'package:batami/helpers/custom_colors.dart';
 import 'package:batami/helpers/utils.dart';
 import 'package:batami/model/attendance/attendance_daily_response.dart';
-import 'package:batami/model/attendance/save_shift_response.dart';
 import 'package:batami/widgets/drawer_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-
-class DailyAttendanceController extends GetxController {
-  var isLoading = false.obs;
-  Rx<AttendanceDailyResponse> attendanceDaily = AttendanceDailyResponse().obs;
-  RxString responseMsg = "".obs;
-  RxBool responseResult = false.obs;
-  var startBtnEnabled = true.obs;
-  var endBtnEnabled = true.obs;
-
-  Rx<WorkActivityItem> selectedWorkActivity =
-      WorkActivityItem(id: null, name: "שדה פעילות").obs;
-
-  void _getAttendanceDaily() async {
-    isLoading.value = true;
-
-    DioSingleton().getAttendanceService().getAttendanceDaily().then((res) {
-      isLoading.value = false;
-
-      if (res.statusCode != null &&
-          res.statusCode! >= 200 &&
-          res.statusCode! < 300) {
-        print(res);
-
-        AttendanceDailyResponse attendanceDailyResponse =
-            AttendanceDailyResponse.fromJson(res.data);
-
-        attendanceDaily.value = attendanceDailyResponse;
-
-        for (int i = 0;
-            i < attendanceDaily.value.workActivityItems!.length;
-            i++) {
-          if (attendanceDaily.value.workActivityItems![i].id ==
-              attendanceDaily.value.workActivityCode) {
-            selectedWorkActivity.value =
-                attendanceDaily.value.workActivityItems![i];
-          }
-        }
-
-        responseResult.value = attendanceDaily.value.result ?? false;
-        responseMsg.value = attendanceDaily.value.message ?? "";
-
-        if (attendanceDaily.value.latestStartTime != null) {
-          startBtnEnabled.value = false;
-        }
-
-        if (attendanceDaily.value.latestEndTime != null) {
-          endBtnEnabled.value = false;
-        }
-      }
-    }).catchError((error) {
-      print(error);
-      isLoading.value = false;
-    });
-  }
-
-  void _saveStartShift() async {
-    isLoading.value = true;
-
-    Map<String, dynamic> map = {};
-    map["workActivityCode"] = selectedWorkActivity.value.id;
-
-    DioSingleton().getAttendanceService().saveStartShift(map).then((res) {
-      isLoading.value = false;
-
-      if (res.statusCode != null &&
-          res.statusCode! >= 200 &&
-          res.statusCode! < 300) {
-        print(res);
-
-        SaveShiftResponse saveShiftResponse =
-            SaveShiftResponse.fromJson(res.data);
-
-        responseResult.value = saveShiftResponse.result ?? false;
-        responseMsg.value = saveShiftResponse.message ?? "";
-
-        startBtnEnabled.value = false;
-
-        if (responseResult.value) {
-          attendanceDaily.value.latestStartTime = saveShiftResponse.time;
-        }
-      }
-    }).catchError((error) {
-      print(error);
-      isLoading.value = false;
-    });
-  }
-
-  void _saveEndShift() async {
-    isLoading.value = true;
-
-    Map<String, dynamic> map = {};
-    map["workActivityCode"] = selectedWorkActivity.value.id;
-
-    DioSingleton().getAttendanceService().saveEndShift(map).then((res) {
-      isLoading.value = false;
-
-      if (res.statusCode != null &&
-          res.statusCode! >= 200 &&
-          res.statusCode! < 300) {
-        print(res);
-
-        SaveShiftResponse saveShiftResponse =
-            SaveShiftResponse.fromJson(res.data);
-
-        responseResult.value = saveShiftResponse.result ?? false;
-        responseMsg.value = saveShiftResponse.message ?? "";
-
-        endBtnEnabled.value = false;
-
-        if (responseResult.value) {
-          attendanceDaily.value.latestEndTime = saveShiftResponse.time;
-        }
-
-        // _getAttendanceDaily();
-      }
-    }).catchError((error) {
-      print(error);
-      isLoading.value = false;
-    });
-  }
-}
 
 class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
   const DailyAttendanceScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    controller._getAttendanceDaily();
+    controller.getAttendanceDaily();
 
     debugPrint("שלום ${getLoggedInUser().firstName}");
 
@@ -236,16 +113,12 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
                                     EdgeInsets.all(10.0))),
                             onPressed: controller.startBtnEnabled.value &&
                                     (!(controller.attendanceDaily.value
-                                            .displayWorkActivity ??
-                                        false) ||
-                                            controller.selectedWorkActivity
-                                                    .value.id !=
-                                                null)
-
-                            // onPressed: (!(controller.attendanceDaily.value.displayWorkActivity ?? false)
-                            //     && controller.startBtnEnabled.value) ||
-
-                                ? () => controller._saveStartShift()
+                                                .displayWorkActivity ??
+                                            false) ||
+                                        controller.selectedWorkActivity.value
+                                                .id !=
+                                            null)
+                                ? () => controller.saveStartShift()
                                 : null,
                             child: Text(
                               controller.startBtnEnabled.value
@@ -259,17 +132,14 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
                                 elevation: MaterialStateProperty.all(5.0),
                                 padding: MaterialStateProperty.all(
                                     EdgeInsets.all(10.0))),
-                            onPressed: controller.endBtnEnabled.value  &&
-                                (!(controller.attendanceDaily.value
-                                    .displayWorkActivity ??
-                                    false) ||
-                                    controller.selectedWorkActivity
-                                        .value.id !=
-                                        null)
-
-                            // onPressed: (!(controller.attendanceDaily.value.displayWorkActivity ?? false)
-                            //             && controller.endBtnEnabled.value)
-                                ? () => controller._saveEndShift()
+                            onPressed: controller.endBtnEnabled.value &&
+                                    (!(controller.attendanceDaily.value
+                                                .displayWorkActivity ??
+                                            false) ||
+                                        controller.selectedWorkActivity.value
+                                                .id !=
+                                            null)
+                                ? () => controller.saveEndShift()
                                 : null,
                             child: Text(
                               controller.endBtnEnabled.value
@@ -284,12 +154,5 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
                   ),
                 ),
         ));
-  }
-}
-
-class DailyAttendanceBinding implements Bindings {
-  @override
-  void dependencies() {
-    Get.replace(DailyAttendanceController());
   }
 }

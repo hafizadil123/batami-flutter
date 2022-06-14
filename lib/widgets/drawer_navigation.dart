@@ -1,6 +1,7 @@
+import 'package:batami/bindings/daily_attendance_binding.dart';
+import 'package:batami/bindings/save_document_binding.dart';
 import 'package:batami/helpers/custom_colors.dart';
 import 'package:batami/helpers/utils.dart';
-import 'package:batami/ui/home_screen.dart';
 import 'package:batami/ui/nav_screens/daily_attendance_screen.dart';
 import 'package:batami/ui/nav_screens/save_document_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,9 +37,7 @@ class DrawerNavigation extends StatelessWidget {
                   ),
                   minLeadingWidth: 50.0,
                   title: Text('פרטים אישיים '),
-                  onTap: () {
-                    Get.offAll(() => HomeScreen(), binding: HomeBinding());
-                  },
+                  onTap: () {},
                 ),
                 ListTile(
                   leading: Image.asset(
@@ -47,8 +46,9 @@ class DrawerNavigation extends StatelessWidget {
                   minLeadingWidth: 50.0,
                   title: Text('דיווח שעות יומי'),
                   onTap: () {
-                    Get.off(() => DailyAttendanceScreen(),
-                        binding: DailyAttendanceBinding());
+                    // Get.off(() => DailyAttendanceScreen(),
+                    //     binding: DailyAttendanceBinding());
+                    Get.toNamed('/daily_attendance');
                   },
                 ),
                 ListTile(
@@ -66,8 +66,9 @@ class DrawerNavigation extends StatelessWidget {
                   minLeadingWidth: 50.0,
                   title: Text('מסמכים'),
                   onTap: () {
-                    Get.off(() => SaveDocumentScreen(),
-                        binding: SaveDocumentBinding());
+                    // Get.off(() => SaveDocumentScreen(),
+                    //     binding: SaveDocumentBinding());
+                    Get.toNamed('/save_document');
                   },
                 ),
                 ListTile(
@@ -124,7 +125,8 @@ class DrawerNavigation extends StatelessWidget {
                   ),
                   minLeadingWidth: 50.0,
                   title: Text('דירה'),
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed('/apartment_faults');},
                 ),
                 ListTile(
                   leading: Image.asset(

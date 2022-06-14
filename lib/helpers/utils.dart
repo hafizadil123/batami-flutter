@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:batami/bindings/login_binding.dart';
 import 'package:batami/helpers/constants.dart';
 import 'package:batami/model/auth/loggedin_user_response.dart';
 import 'package:batami/model/global/get_data_response.dart';
@@ -78,7 +79,8 @@ dismissLoadingDialog() {
 }
 
 logoutAndGoToLogin() {
-  GetStorage().erase().then((value) => Get.offAll(() => LoginScreen(), binding: LoginBinding()));
+  // GetStorage().erase().then((value) => Get.offAll(() => LoginScreen(), binding: LoginBinding()));
+  GetStorage().erase().then((value) => Get.offAllNamed('/login'));
 }
 
 getAppBar(String title,
@@ -117,5 +119,20 @@ getAppBar(String title,
               })
           : const SizedBox.shrink()
     ],
+  );
+}
+
+Widget textWithHeading(String? heading, String? text){
+  return RichText(
+    text: TextSpan(
+      style: const TextStyle(
+        fontSize: 14.0,
+        color: Colors.black,
+      ),
+      children: <TextSpan>[
+        TextSpan(text: "$heading: ", style: const TextStyle(fontWeight: FontWeight.bold)),
+        TextSpan(text: text),
+      ],
+    ),
   );
 }

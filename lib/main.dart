@@ -1,7 +1,9 @@
+import 'package:batami/bindings/daily_attendance_binding.dart';
+import 'package:batami/bindings/login_binding.dart';
 import 'package:batami/firebase_options.dart';
 import 'package:batami/helpers/constants.dart';
+import 'package:batami/helpers/routes.dart';
 import 'package:batami/ui/auth/login_screen.dart';
-import 'package:batami/ui/home_screen.dart';
 import 'package:batami/ui/nav_screens/daily_attendance_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -34,12 +36,17 @@ class MyApp extends StatelessWidget {
         Locale("he", "IL"),
       ],
       locale: const Locale("he", "IL"),
-      home: GetStorage().read(PREF_AUTH_KEY) != null
-          ? DailyAttendanceScreen()
-          : LoginScreen(),
-      initialBinding: GetStorage().read(PREF_AUTH_KEY) != null
-          ? DailyAttendanceBinding()
-          : LoginBinding(),
+      // home: GetStorage().read(PREF_AUTH_KEY) != null
+      //     ? DailyAttendanceScreen()
+      //     : LoginScreen(),
+      // initialBinding: GetStorage().read(PREF_AUTH_KEY) != null
+      //     ? DailyAttendanceBinding()
+      //     : LoginBinding(),
+
+
+      initialRoute: GetStorage().read(PREF_AUTH_KEY) != null ? '/daily_attendance' : '/login',
+      getPages: routes,
+
       debugShowCheckedModeBanner: false,
     );
   }
