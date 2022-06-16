@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:batami/api/dio_singleton.dart';
 import 'package:batami/bindings/daily_attendance_binding.dart';
 import 'package:batami/helpers/constants.dart';
+import 'package:batami/helpers/utils.dart';
 import 'package:batami/model/auth/loggedin_user_response.dart';
 import 'package:batami/model/auth/login_response.dart';
 import 'package:batami/model/global/get_data_response.dart';
@@ -90,8 +91,8 @@ class LoginController extends GetxController {
             .write(PREF_APP_DATA, jsonEncode(getData.toJson()))
             .then((value) {
           Get.defaultDialog(title: "Success", middleText: "Logged In");
-          // Get.offAll(() => DailyAttendanceScreen(), binding: DailyAttendanceBinding());
-          Get.offAllNamed('/daily_attendance');
+          Get.offAllNamed(getLoggedInUser().userType!.toLowerCase().contains('volunteer') ?
+          '/daily_attendance': '/save_document');
         });
       }
     }).catchError((error) {

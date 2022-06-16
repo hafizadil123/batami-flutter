@@ -1,44 +1,89 @@
 import 'dart:convert';
 
 import 'package:batami/api/dio_singleton.dart';
+import 'package:batami/helpers/utils.dart';
 import 'package:batami/model/apartment_fault/apartment_fault_details.dart';
 import 'package:batami/model/global/get_data_response.dart';
 import 'package:batami/model/result_message_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 
 class AddApartmentFaultController extends GetxController {
   var isLoading = false.obs;
 
-  // Rx<ApartmentFaultsResponse> apartmentFaults = ApartmentFaultsResponse().obs;
+  Rx<ApartmentFaultCategoryTypes> selectedApartmentFaultCategoryType = ApartmentFaultCategoryTypes(id: null, name: "קטגוריית תקלה", types: []).obs;
 
-  Rx<ApartmentFaultCategoryTypes> selectedApartmentFaultCategoryType =
-      ApartmentFaultCategoryTypes(id: null, name: "קטגוריית תקלה").obs;
-
-  Rx<ApartmentFaultTypes> selectedApartmentFaultType = ApartmentFaultTypes(
-          id: null, name: "סוג תקלה", categoryCode: null, isMustLocation: null)
-      .obs;
+  Rx<ApartmentFaultTypes> selectedApartmentFaultType = ApartmentFaultTypes(id: null, name: "סוג תקלה", isMustLocation: null).obs;
 
   Rx<DateTime> selectedOccurrenceDate = DateTime.now().obs;
-  Rx<DateTime> selectedHandleDate = DateTime.now().obs;
   RxBool isRecurring = false.obs;
 
   TextEditingController faultDescriptionController = TextEditingController();
   TextEditingController locationController = TextEditingController();
-  TextEditingController handleDescriptionController = TextEditingController();
-  TextEditingController creatorController = TextEditingController();
-  TextEditingController handlerController = TextEditingController();
+
+  TextEditingController apartmentFaultCategoryTypeController = TextEditingController();
+  TextEditingController apartmentFaultTypeController = TextEditingController();
 
   ApartmentFaultDetails? apartmentFaultDetails;
+
 
   @override
   void onInit() {
     apartmentFaultDetails = Get.arguments[0];
 
+    if (apartmentFaultDetails!.faultCategoryTypeCode != null &&
+        apartmentFaultDetails!.faultCategoryTypeCode != 0) {
+      selectedApartmentFaultCategoryType.value = getAppData()
+          .apartmentFaultCategoryTypes
+          .firstWhere(
+              (p) => p.id == apartmentFaultDetails!.faultCategoryTypeCode,
+              orElse: () => ApartmentFaultCategoryTypes(
+                  id: null, name: "קטגוריית תקלה", types: []));
+
+      apartmentFaultCategoryTypeController.text = selectedApartmentFaultCategoryType.value.name;
+
+    }
+
+    if (apartmentFaultDetails!.faultTypeCode != null &&
+        apartmentFaultDetails!.faultTypeCode != 0) {
+      selectedApartmentFaultType.value = selectedApartmentFaultCategoryType
+          .value.types
+          .firstWhere((p) => p.id == apartmentFaultDetails!.faultTypeCode,
+              orElse: () => ApartmentFaultTypes(
+                  id: null, name: "סוג תקלה", isMustLocation: null));
+
+      apartmentFaultTypeController.text = selectedApartmentFaultType.value.name!;
+    }
+
+    if (apartmentFaultDetails!.occurrenceDate != null) {
+      selectedOccurrenceDate.value = DateFormat('dd/MM/yyyy')
+          .parse(apartmentFaultDetails!.occurrenceDate!);
+    }
+
+    isRecurring.value = apartmentFaultDetails!.isRecurring ?? false;
+
     super.onInit();
   }
+
+  // void onApartmentFaultCategoryTypeChanged(ApartmentFaultCategoryTypes? val){
+  //   selectedApartmentFaultCategoryType.value = val!;
+  //
+  //   apartmentFaultTypeItems = selectedApartmentFaultCategoryType.value.types.map(
+  //         (val) {
+  //       return DropdownMenuItem<ApartmentFaultTypes>(
+  //         value: val,
+  //         child: Text(val.name!),
+  //       );
+  //     },
+  //   ).toList();
+  // }
+  //
+  // void onApartmentFaultTypeChanged(ApartmentFaultTypes? val){
+  //   selectedApartmentFaultType.value = val!;
+  // }
+
+  // ApartmentFaultCategoryTypes
 
   void saveApartmentFault() async {
     isLoading.value = true;
@@ -62,23 +107,7 @@ class AddApartmentFaultController extends GetxController {
       apartmentFaultDetails!.location = locationController.text.trim();
     }
 
-    if (handleDescriptionController.text.trim().isNotEmpty) {
-      apartmentFaultDetails!.handleDescription =
-          handleDescriptionController.text.trim();
-    }
-
-    if (creatorController.text.trim().isNotEmpty) {
-      apartmentFaultDetails!.creator = creatorController.text.trim();
-    }
-
-    if (handlerController.text.trim().isNotEmpty) {
-      apartmentFaultDetails!.handler = handlerController.text.trim();
-
-      apartmentFaultDetails!.handleDate =
-          DateFormat('dd/MM/yyyy').format(selectedHandleDate.value);
-    }
-
-    debugPrint("${jsonEncode(apartmentFaultDetails!.toJson())}");
+    debugPrint(jsonEncode(apartmentFaultDetails!.toJson()));
 
     DioSingleton()
         .getApartmentFaultsService()
@@ -101,7 +130,7 @@ class AddApartmentFaultController extends GetxController {
                 middleText: resultMessageResponse.message ?? "")
             .then((value) {
           if (resultMessageResponse.result ?? false) {
-            Get.toNamed('/daily_attendance');
+            Get.toNamed('/apartment_faults');
           }
         });
       }

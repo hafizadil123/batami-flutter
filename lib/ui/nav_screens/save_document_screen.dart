@@ -67,7 +67,7 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
         appBar: AppBar(
           backgroundColor: CustomColors.colorMain,
           elevation: 0.0,
-          title: Text("לשמור מסמך"),
+          title: Text("העלאת מסמכים"),
           titleTextStyle: TextStyle(fontSize: 15.0),
         ),
         body: Obx(

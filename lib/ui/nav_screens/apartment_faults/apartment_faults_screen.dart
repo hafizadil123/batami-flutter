@@ -17,12 +17,14 @@ class ApartmentFaultsScreen extends GetView<ApartmentFaultsController> {
         drawer: DrawerNavigation(),
         appBar: AppBar(
           backgroundColor: CustomColors.colorMain,
-          titleTextStyle: TextStyle(fontSize: 15.0),
-          title: Text("דירה"),
+          titleTextStyle: const TextStyle(fontSize: 15.0),
+          title: const Text("רשימת תקלות לדירה"),
           actions: [
-            IconButton(onPressed: (){
-              controller.getApartmentFaultDetails(0);
-            }, icon: const Icon(Icons.add))
+            IconButton(
+                onPressed: () {
+                  controller.getApartmentFaultDetails(0, true);
+                },
+                icon: const Icon(Icons.add))
           ],
         ),
         body: Obx(
@@ -51,6 +53,7 @@ class ApartmentFaultsScreen extends GetView<ApartmentFaultsController> {
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   textWithHeading("מספר תקלה", "${fault.id}"),
                   textWithHeading("תאריך התרחשות", fault.occurrenceDate),
@@ -66,13 +69,26 @@ class ApartmentFaultsScreen extends GetView<ApartmentFaultsController> {
                 ],
               ),
             ),
-            IconButton(
-                onPressed: () => controller.showDeleteDialog(fault.id!),
-                icon: Icon(Icons.delete)),
+            Row(
+              children: [
+                IconButton(
+                    onPressed:
+                        fault.handleDate != null && fault.handleDate!.isNotEmpty
+                            ? null
+                            : () {
+                                controller.getApartmentFaultDetails(
+                                    fault.id!, true);
+                              },
+                    icon: const Icon(Icons.edit)),
+                IconButton(
+                    onPressed: () => controller.showDeleteDialog(fault.id!),
+                    icon: const Icon(Icons.delete)),
+              ],
+            ),
           ],
         ),
       ),
-      onTap: () => controller.getApartmentFaultDetails(fault.id!),
+      onTap: () => controller.getApartmentFaultDetails(fault.id!, false),
     );
   }
 }

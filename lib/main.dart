@@ -3,6 +3,7 @@ import 'package:batami/bindings/login_binding.dart';
 import 'package:batami/firebase_options.dart';
 import 'package:batami/helpers/constants.dart';
 import 'package:batami/helpers/routes.dart';
+import 'package:batami/helpers/utils.dart';
 import 'package:batami/ui/auth/login_screen.dart';
 import 'package:batami/ui/nav_screens/daily_attendance_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -44,7 +45,8 @@ class MyApp extends StatelessWidget {
       //     : LoginBinding(),
 
 
-      initialRoute: GetStorage().read(PREF_AUTH_KEY) != null ? '/daily_attendance' : '/login',
+      initialRoute: GetStorage().read(PREF_AUTH_KEY) != null ? getLoggedInUser().userType!.toLowerCase().contains('volunteer') ?
+      '/daily_attendance': '/save_document' : '/login',
       getPages: routes,
 
       debugShowCheckedModeBanner: false,

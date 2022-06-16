@@ -13,8 +13,6 @@ class ApartmentFaultsController extends GetxController {
   var isLoading = false.obs;
   Rx<ApartmentFaultsResponse> apartmentFaults = ApartmentFaultsResponse().obs;
 
-  // Rx<ApartmentFaultDetails> apartmentFaultDetails = ApartmentFaultDetails().obs;
-
   void getApartmentFaults() async {
     isLoading.value = true;
 
@@ -68,7 +66,7 @@ class ApartmentFaultsController extends GetxController {
                 middleText: resultMessageResponse.message ?? "")
             .then((value) {
           if (resultMessageResponse.result ?? false) {
-            Get.offNamed('/apartment_faults');
+            getApartmentFaults();
           }
         });
       }
@@ -78,7 +76,7 @@ class ApartmentFaultsController extends GetxController {
     });
   }
 
-  void getApartmentFaultDetails(int id) async {
+  void getApartmentFaultDetails(int id, bool openAddFaultForm) async {
     isLoading.value = true;
 
     Map<String, dynamic> map = {};
@@ -98,12 +96,13 @@ class ApartmentFaultsController extends GetxController {
         ApartmentFaultDetails apartmentFaultDetailsResponse =
             ApartmentFaultDetails.fromJson(res.data);
 
-        if (id != 0) {
-          showApartmentFaultDetailsDialog(apartmentFaultDetailsResponse);
-        } else {
+        if(openAddFaultForm){
           Get.toNamed('/add_apartment_fault',
               arguments: [apartmentFaultDetailsResponse]);
+        } else{
+          showApartmentFaultDetailsDialog(apartmentFaultDetailsResponse);
         }
+
       }
     }).catchError((error) {
       print(error);

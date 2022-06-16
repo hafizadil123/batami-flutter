@@ -10,6 +10,7 @@ class LoggedInUser {
   final bool? isAbroad;
   final bool? isFemale;
   final String? userType;
+  final int? apartmentCode;
   final int? regCoo;
   final bool? result;
   final String? message;
@@ -26,6 +27,7 @@ class LoggedInUser {
       this.isAbroad,
       this.isFemale,
       this.userType,
+      this.apartmentCode,
       this.regCoo,
       this.result,
       this.message});
@@ -43,14 +45,14 @@ class LoggedInUser {
       isAbroad: parsedJson['isAbroad'],
       isFemale: parsedJson['isFemale'],
       userType: parsedJson['userType'],
+      apartmentCode: parsedJson['apartmentCode'],
       regCoo: parsedJson['regCoo'],
       result: parsedJson['result'],
       message: parsedJson['message'],
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'code': code,
         'userName': userName,
         'idNumber': idNumber,
@@ -62,6 +64,7 @@ class LoggedInUser {
         'isAbroad': isAbroad,
         'isFemale': isFemale,
         'userType': userType,
+        'apartmentCode': apartmentCode,
         'regCoo': regCoo,
         'result': result,
         'message': message,

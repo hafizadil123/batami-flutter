@@ -22,7 +22,7 @@ class GetData {
     required this.banks,
     required this.selectedYearTypes,
     required this.schoolCityTypes,
-    required this.apartmentFaultTypes,
+    // required this.apartmentFaultTypes,
     required this.letterTypes,
     required this.result,
     required this.message,
@@ -52,7 +52,7 @@ class GetData {
   late final List<SelectedYearTypes> selectedYearTypes;
   late final List<SchoolCityTypes> schoolCityTypes;
   late final List<ApartmentFaultCategoryTypes> apartmentFaultCategoryTypes;
-  late final List<ApartmentFaultTypes> apartmentFaultTypes;
+  // late final List<ApartmentFaultTypes> apartmentFaultTypes;
   late final List<LetterTypes> letterTypes;
   late final bool result;
   late final String message;
@@ -121,9 +121,9 @@ class GetData {
     apartmentFaultCategoryTypes = List.from(json['apartmentFaultCategoryTypes'])
         .map((e) => ApartmentFaultCategoryTypes.fromJson(e))
         .toList();
-    apartmentFaultTypes = List.from(json['apartmentFaultTypes'])
-        .map((e) => ApartmentFaultTypes.fromJson(e))
-        .toList();
+    // apartmentFaultTypes = List.from(json['apartmentFaultTypes'])
+    //     .map((e) => ApartmentFaultTypes.fromJson(e))
+    //     .toList();
     letterTypes = List.from(json['letterTypes'])
         .map((e) => LetterTypes.fromJson(e))
         .toList();
@@ -167,8 +167,8 @@ class GetData {
     _data['schoolCityTypes'] = schoolCityTypes.map((e) => e.toJson()).toList();
     _data['apartmentFaultCategoryTypes'] =
         apartmentFaultCategoryTypes.map((e) => e.toJson()).toList();
-    _data['apartmentFaultTypes'] =
-        apartmentFaultTypes.map((e) => e.toJson()).toList();
+    // _data['apartmentFaultTypes'] =
+    //     apartmentFaultTypes.map((e) => e.toJson()).toList();
     _data['letterTypes'] = letterTypes.map((e) => e.toJson()).toList();
     _data['result'] = result;
     _data['message'] = message;
@@ -691,39 +691,66 @@ class ApartmentFaultCategoryTypes {
   ApartmentFaultCategoryTypes({
     required this.id,
     required this.name,
+    required this.types,
   });
 
   late final int? id;
   late final String name;
+  late final List<ApartmentFaultTypes> types;
+
+  bool operator ==(dynamic other) {
+    return other is ApartmentFaultCategoryTypes &&
+        this.id == other.id &&
+        this.name == other.name &&
+        this.types == other.types;
+  }
+
+  @override
+  int get hashCode => super.hashCode;
 
   ApartmentFaultCategoryTypes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    types = List.from(json['types'])
+        .map((e) => ApartmentFaultTypes.fromJson(e))
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
     _data['name'] = name;
+    _data['types'] =
+        types.map((e) => e.toJson()).toList();
     return _data;
   }
 }
 
 class ApartmentFaultTypes {
   ApartmentFaultTypes({
-    required this.categoryCode,
+    // required this.categoryCode,
     required this.isMustLocation,
     required this.id,
     required this.name,
   });
 
-  late final int? categoryCode;
+  // late final int? categoryCode;
   late final bool? isMustLocation;
   late final int? id;
   late final String? name;
 
+  bool operator ==(dynamic other) {
+    return other is ApartmentFaultTypes &&
+        this.id == other.id &&
+        this.name == other.name &&
+        this.isMustLocation == other.isMustLocation;
+  }
+
+  @override
+  int get hashCode => super.hashCode;
+
   ApartmentFaultTypes.fromJson(Map<String, dynamic> json) {
-    categoryCode = json['categoryCode'];
+    // categoryCode = json['categoryCode'];
     isMustLocation = json['isMustLocation'];
     id = json['id'];
     name = json['name'];
@@ -731,7 +758,7 @@ class ApartmentFaultTypes {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['categoryCode'] = categoryCode;
+    // _data['categoryCode'] = categoryCode;
     _data['isMustLocation'] = isMustLocation;
     _data['id'] = id;
     _data['name'] = name;
