@@ -1,5 +1,5 @@
 import 'package:batami/bindings/daily_attendance_binding.dart';
-import 'package:batami/bindings/login_binding.dart';
+import 'package:batami/bindings/auth/login_binding.dart';
 import 'package:batami/firebase_options.dart';
 import 'package:batami/helpers/constants.dart';
 import 'package:batami/helpers/routes.dart';
@@ -15,11 +15,11 @@ import 'package:get_storage/get_storage.dart';
 
 void main() async {
   await GetStorage.init();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
 
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   runApp(MyApp());
 }

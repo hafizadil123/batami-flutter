@@ -2,6 +2,8 @@ import 'package:batami/helpers/custom_colors.dart';
 import 'package:batami/helpers/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class DrawerNavigation extends StatelessWidget {
   @override
@@ -144,6 +146,22 @@ class DrawerNavigation extends StatelessWidget {
                 //   title: Text('מלגות'),
                 //   onTap: () {},
                 // ),
+                ListTile(
+                  leading: Icon(
+                    Icons.web_outlined,
+                    color: CustomColors.colorIcons,
+                  ),
+                  minLeadingWidth: 50.0,
+                  title: Text('לאתר אישי'),
+                  onTap: () async {
+                    final Uri _url = Uri.parse('http://api.bat-ami.org.il/ApiTest/Account/Details');
+                    if (await canLaunchUrl(_url)) {
+                      await launchUrl(_url, mode: LaunchMode.externalApplication, );
+                    } else {
+                      throw "Could not launch $_url";
+                    }
+                  },
+                ),
                 ListTile(
                   leading: Icon(
                     Icons.logout,

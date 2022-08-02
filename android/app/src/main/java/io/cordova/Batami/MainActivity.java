@@ -1,4 +1,4 @@
-package com.batami.mobile.batami;
+package io.cordova.Batami;
 
 import io.flutter.embedding.android.FlutterActivity;
 

@@ -13,7 +13,6 @@ class AddApartmentFaultController extends GetxController {
   var isLoading = false.obs;
 
   Rx<ApartmentFaultCategoryTypes> selectedApartmentFaultCategoryType = ApartmentFaultCategoryTypes(id: null, name: "קטגוריית תקלה", types: []).obs;
-
   Rx<ApartmentFaultTypes> selectedApartmentFaultType = ApartmentFaultTypes(id: null, name: "סוג תקלה", isMustLocation: null).obs;
 
   Rx<DateTime> selectedOccurrenceDate = DateTime.now().obs;
@@ -62,6 +61,10 @@ class AddApartmentFaultController extends GetxController {
     }
 
     isRecurring.value = apartmentFaultDetails!.isRecurring ?? false;
+
+    if (apartmentFaultDetails!.faultDescription != null) {
+      faultDescriptionController.text = apartmentFaultDetails!.faultDescription!;
+    }
 
     super.onInit();
   }

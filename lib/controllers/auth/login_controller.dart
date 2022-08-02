@@ -6,6 +6,7 @@ import 'package:batami/helpers/constants.dart';
 import 'package:batami/helpers/utils.dart';
 import 'package:batami/model/auth/loggedin_user_response.dart';
 import 'package:batami/model/auth/login_response.dart';
+import 'package:batami/model/error_response.dart';
 import 'package:batami/model/global/get_data_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,12 +41,15 @@ class LoginController extends GetxController {
             .then((value) {
           _getLoggedInUser();
         });
-      } else if(res.statusCode == 400){
-        LoginResponse loginResponse = LoginResponse.fromJson(res.data);
-        Get.defaultDialog(title: "עֵרָנִי", middleText: "${loginResponse.errorDescription}");
       }
     }).catchError((error) {
+      // print(error.response.data["errorDescription"] ?? "");
       print(error);
+
+      ErrorResponse errorResponse = ErrorResponse.fromJson(error.response.data);
+
+      print("${errorResponse.errorDescription ?? ""}");
+      Get.defaultDialog(title: "עֵרָנִי", middleText: "${errorResponse.errorDescription ?? ""}");
       isLoading.value = false;
     });
   }
@@ -91,7 +95,7 @@ class LoginController extends GetxController {
         GetStorage()
             .write(PREF_APP_DATA, jsonEncode(getData.toJson()))
             .then((value) {
-          Get.defaultDialog(title: "Success", middleText: "Logged In");
+          Get.defaultDialog(title: "הַצלָחָה", middleText: "מְחוּבָּר");
           Get.offAllNamed(getLoggedInUser().userType!.toLowerCase().contains('volunteer') ?
           '/daily_attendance': '/save_document');
         });

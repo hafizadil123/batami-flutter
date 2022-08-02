@@ -135,25 +135,29 @@ class ApartmentFaultsController extends GetxController {
           titleTextStyle: TextStyle(fontSize: 15.0),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const SizedBox(
-                height: 20.0,
-              ),
-              textWithHeading("מספר תקלה", "${faultDetails.id}"),
-              textWithHeading("שם הדירה", faultDetails.apartmentName),
-              textWithHeading("סטטוס תקלה", faultDetails.statusName),
-              textWithHeading("סוג תקלה", faultDetails.apartmentFaultTypeName),
-              textWithHeading("תאריך התרחשות", faultDetails.occurrenceDate),
-              textWithHeading("האם תקלה חוזרת", "${faultDetails.isRecurring}"),
-              textWithHeading("תיאור תקלה", faultDetails.faultDescription),
-              textWithHeading("מיקום", faultDetails.location),
-              textWithHeading("תאריך טיפול", faultDetails.handleDate),
-              textWithHeading("תיאור טיפול", faultDetails.handleDescription),
-              textWithHeading("פותח תקלה", faultDetails.creator),
-              textWithHeading("סוגר תקלה", faultDetails.handler),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(
+                  height: 20.0,
+                ),
+                textWithHeading("מספר תקלה", "${faultDetails.id}"),
+                textWithHeading("שם הדירה", faultDetails.apartmentName),
+                textWithHeading("סטטוס תקלה", faultDetails.statusName),
+                textWithHeading("סוג תקלה", faultDetails.apartmentFaultTypeName),
+                textWithHeading("תאריך התרחשות", faultDetails.occurrenceDate),
+                textWithHeading("האם תקלה חוזרת", "${faultDetails.isRecurring}"),
+                textWithHeading("תיאור תקלה", faultDetails.faultDescription),
+                textWithHeading("מיקום", faultDetails.location),
+                textWithHeading("תאריך טיפול", faultDetails.handleDate),
+                textWithHeading("תיאור טיפול", faultDetails.handleDescription),
+                textWithHeading("פותח תקלה", faultDetails.creator),
+                textWithHeading("סוגר תקלה", faultDetails.handler),
+              ],
+            ),
           ),
         ),
       ),

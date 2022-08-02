@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:batami/bindings/login_binding.dart';
+import 'package:batami/bindings/auth/login_binding.dart';
 import 'package:batami/helpers/constants.dart';
 import 'package:batami/model/auth/loggedin_user_response.dart';
 import 'package:batami/model/global/get_data_response.dart';

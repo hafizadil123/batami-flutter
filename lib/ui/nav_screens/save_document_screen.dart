@@ -5,6 +5,7 @@ import 'package:batami/helpers/custom_colors.dart';
 import 'package:batami/helpers/utils.dart';
 import 'package:batami/model/global/get_data_response.dart';
 import 'package:batami/widgets/drawer_navigation.dart';
+import 'package:batami/widgets/single_select_dialog.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,21 +15,6 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class SaveDocumentScreen extends GetView<SaveDocumentController> {
   SaveDocumentScreen({Key? key}) : super(key: key);
-
-  List<DropdownMenuItem<DocumentTypes>> documentTypesMenuItems = [
-    DropdownMenuItem(
-      child: Text("סוג מסמך"),
-      value: DocumentTypes(id: null, name: "סוג מסמך"),
-    ),
-    ...getAppData().documentTypes.map(
-      (val) {
-        return DropdownMenuItem<DocumentTypes>(
-          value: val,
-          child: Text(val.name!),
-        );
-      },
-    ).toList(),
-  ];
 
   List<DropdownMenuItem<HmoTypes>> hmoTypesMenuItems = [
     DropdownMenuItem(
@@ -79,32 +65,68 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        DropdownButtonFormField(
-                          hint:
-                              Text(controller.selectedDocumentType.value.name!),
-                          isExpanded: true,
-                          iconSize: 30.0,
-                          style: TextStyle(color: CustomColors.colorSecondary),
-                          items: documentTypesMenuItems,
-                          onChanged: (DocumentTypes? val) {
-                            controller.selectedDocumentType.value = val!;
-                          },
-                          decoration: const InputDecoration(
-                            hintText: "תיאור",
-                            contentPadding: EdgeInsets.all(10.0),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: CustomColors.colorSecondary),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: CustomColors.colorSecondary),
-                            ),
-                            focusColor: CustomColors.colorSecondary,
-                            hintStyle:
-                                TextStyle(color: CustomColors.colorSecondary),
-                          ),
-                        ),
+                        // DropdownButtonFormField(
+                        //   hint:
+                        //       Text(controller.selectedDocumentType.value.name!),
+                        //   isExpanded: true,
+                        //   iconSize: 30.0,
+                        //   style: TextStyle(color: CustomColors.colorSecondary),
+                        //   items: documentTypesMenuItems,
+                        //   onChanged: (DocumentTypes? val) {
+                        //     controller.selectedDocumentType.value = val!;
+                        //   },
+                        //   decoration: const InputDecoration(
+                        //     hintText: "תיאור",
+                        //     contentPadding: EdgeInsets.all(10.0),
+                        //     enabledBorder: UnderlineInputBorder(
+                        //       borderSide: BorderSide(
+                        //           color: CustomColors.colorSecondary),
+                        //     ),
+                        //     focusedBorder: UnderlineInputBorder(
+                        //       borderSide: BorderSide(
+                        //           color: CustomColors.colorSecondary),
+                        //     ),
+                        //     focusColor: CustomColors.colorSecondary,
+                        //     hintStyle:
+                        //         TextStyle(color: CustomColors.colorSecxcvondary),
+                        //   ),
+                        // ),
+
+                        SingleSelectDialog(
+                            // itemsList: getAppData().documentCategoryTypes,
+                            itemsList: getAppData()
+                                .documentCategoryTypes
+                                .where((i) =>
+                                    (i.isForAllRegionalCoordinators ?? false) ||
+                                    i.regionalCoordinators!
+                                        .contains(getLoggedInUser().regCoo))
+                                .toList(),
+                            hint: "קטגוריית מסמך",
+                            controller:
+                                controller.documentCategoryTypeController,
+                            callback: (value) {
+                              controller.selectedDocumentCategoryType.value =
+                                  value;
+                              controller.selectedDocumentType.value =
+                                  value.documentTypes.first;
+                              controller.documentTypeController.text =
+                                  value.documentTypes.first.name;
+                            }),
+
+                        controller.selectedDocumentCategoryType.value.id != null
+                            ? SingleSelectDialog(
+                                itemsList: controller
+                                    .selectedDocumentCategoryType
+                                    .value
+                                    .documentTypes,
+                                hint: "סוג מסמך",
+                                controller: controller.documentTypeController,
+                                callback: (value) {
+                                  print(value.name);
+                                  controller.selectedDocumentType.value = value;
+                                })
+                            : SizedBox.shrink(),
+
                         TextFormField(
                           controller: controller.descriptionController,
                           maxLength: 100,
@@ -160,14 +182,14 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                             controller.selectedDocumentType.value.id),
                         ElevatedButton(
                             onPressed: () {
-                              if (controller.descriptionController.text
-                                  .trim()
-                                  .isEmpty) {
-                                Get.defaultDialog(
-                                    title: "עֵרָנִי", middleText: "נדרש תיאור");
-                                return;
-                              } else if (controller
-                                      .selectedDocumentType.value.id ==
+                              // if (controller.descriptionController.text
+                              //     .trim()
+                              //     .isEmpty) {
+                              //   Get.defaultDialog(
+                              //       title: "עֵרָנִי", middleText: "נדרש תיאור");
+                              //   return;
+                              // } else
+                              if (controller.selectedDocumentType.value.id ==
                                   null) {
                                 Get.defaultDialog(
                                     title: "עֵרָנִי",
@@ -200,7 +222,7 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                                   controller.selectedHmoType.value.id == null) {
                                 Get.defaultDialog(
                                     title: "עֵרָנִי",
-                                    middleText: "נא להזין את סוג hmo");
+                                    middleText: "נא להזין את סוג קופת חולים");
                               } else if (controller
                                           .selectedDocumentType.value.id ==
                                       5 &&
@@ -406,6 +428,7 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
           ],
         );
       case 23:
+      case 40:
         return ListView(
           shrinkWrap: true,
           children: [

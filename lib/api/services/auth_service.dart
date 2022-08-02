@@ -3,12 +3,23 @@ import 'package:dio/dio.dart';
 
 class AuthService {
   Future<Response<dynamic>> login(jsonObject) {
-    return DioSingleton().getDio().post("Token",
-        data: jsonObject,
-      options: Options(contentType: Headers.formUrlEncodedContentType),);
+    return DioSingleton().getDio().post(
+          "Token",
+          data: jsonObject,
+          options: Options(contentType: Headers.formUrlEncodedContentType),
+        );
   }
 
   Future<Response<dynamic>> getLoggedInUser() {
-    return DioSingleton().getDio().post("api/Inner/GetLoggedInUser",);
+    return DioSingleton().getDio().post(
+          "api/Inner/GetLoggedInUser",
+        );
+  }
+
+  Future<Response<dynamic>> forgotPassword(jsonObject) {
+    return DioSingleton().getDio().post(
+          "api/Inner/RecoverPassword",
+          data: jsonObject,
+        );
   }
 }

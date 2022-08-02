@@ -8,7 +8,6 @@ class GetData {
     required this.serviceGuideTypes,
     required this.countryTypes,
     required this.familyStatusTypes,
-    required this.documentTypes,
     required this.hmoTypes,
     required this.citizenshipTypes,
     required this.parentMaritalStatusTypes,
@@ -36,7 +35,7 @@ class GetData {
   late final List<ServiceGuideTypes> serviceGuideTypes;
   late final List<CountryTypes> countryTypes;
   late final List<FamilyStatusTypes> familyStatusTypes;
-  late final List<DocumentTypes> documentTypes;
+  late final List<DocumentCategoryTypes> documentCategoryTypes;
   late final List<HmoTypes> hmoTypes;
   late final List<CitizenshipTypes> citizenshipTypes;
   late final List<ParentMaritalStatusTypes> parentMaritalStatusTypes;
@@ -81,8 +80,8 @@ class GetData {
     familyStatusTypes = List.from(json['familyStatusTypes'])
         .map((e) => FamilyStatusTypes.fromJson(e))
         .toList();
-    documentTypes = List.from(json['documentTypes'])
-        .map((e) => DocumentTypes.fromJson(e))
+    documentCategoryTypes = List.from(json['documentCategoryTypes'])
+        .map((e) => DocumentCategoryTypes.fromJson(e))
         .toList();
     hmoTypes =
         List.from(json['hmoTypes']).map((e) => HmoTypes.fromJson(e)).toList();
@@ -146,7 +145,7 @@ class GetData {
     _data['countryTypes'] = countryTypes.map((e) => e.toJson()).toList();
     _data['familyStatusTypes'] =
         familyStatusTypes.map((e) => e.toJson()).toList();
-    _data['documentTypes'] = documentTypes.map((e) => e.toJson()).toList();
+    _data['documentCategoryTypes'] = documentCategoryTypes.map((e) => e.toJson()).toList();
     _data['hmoTypes'] = hmoTypes.map((e) => e.toJson()).toList();
     _data['citizenshipTypes'] =
         citizenshipTypes.map((e) => e.toJson()).toList();
@@ -178,12 +177,12 @@ class GetData {
 
 class AbsenceTypes {
   AbsenceTypes({
-    required this.id,
-    required this.name,
+    this.id,
+    this.name,
   });
 
-  late final int id;
-  late final String name;
+  late final int? id;
+  late final String? name;
 
   AbsenceTypes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -348,6 +347,46 @@ class FamilyStatusTypes {
     final _data = <String, dynamic>{};
     _data['id'] = id;
     _data['name'] = name;
+    return _data;
+  }
+}
+
+class DocumentCategoryTypes{
+  DocumentCategoryTypes({
+    this.id,
+    this.name,
+    this.isForAllRegionalCoordinators,
+    this.regionalCoordinators,
+    this.documentTypes,
+  });
+
+  int? id;
+  String? name;
+  bool? isForAllRegionalCoordinators;
+  List<int>? regionalCoordinators;
+  List<DocumentTypes>? documentTypes;
+
+  DocumentCategoryTypes.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    isForAllRegionalCoordinators = json['isForAllRegionalCoordinators'];
+    regionalCoordinators = List.from(json['regionalCoordinators'])
+        .map((e) => e as int)
+        .toList();
+    documentTypes = List.from(json['documentTypes'])
+        .map((e) => DocumentTypes.fromJson(e))
+        .toList();
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['name'] = name;
+    _data['isForAllRegionalCoordinators'] = isForAllRegionalCoordinators;
+    _data['regionalCoordinators'] =
+        regionalCoordinators!.map((e) => e).toList();
+    _data['documentTypes'] =
+        documentTypes!.map((e) => e.toJson()).toList();
     return _data;
   }
 }

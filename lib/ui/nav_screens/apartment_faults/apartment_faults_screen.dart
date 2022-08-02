@@ -47,45 +47,48 @@ class ApartmentFaultsScreen extends GetView<ApartmentFaultsController> {
       child: Card(
         margin: const EdgeInsets.all(10.0),
         elevation: 10.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    textWithHeading("מספר תקלה", "${fault.id}"),
+                    textWithHeading("תאריך התרחשות", fault.occurrenceDate),
+                    textWithHeading("סטטוס תקלה", fault.statusName),
+                    textWithHeading("תיאור תקלה", fault.faultDescription),
+                    textWithHeading("מיקום", fault.location),
+                    textWithHeading("תיאור טיפול", fault.handleDescription),
+                    textWithHeading("תאריך טיפול", fault.handleDate),
+                    textWithHeading("סוג תקלה", fault.apartmentFaultTypeName),
+                    textWithHeading("האם תקלה חוזרת", fault.isRecurring),
+                    textWithHeading("פותח תקלה", fault.creator),
+                    textWithHeading("סוגר תקלה", fault.handler),
+                  ],
+                ),
+              ),
+              Row(
                 children: [
-                  textWithHeading("מספר תקלה", "${fault.id}"),
-                  textWithHeading("תאריך התרחשות", fault.occurrenceDate),
-                  textWithHeading("סטטוס תקלה", fault.statusName),
-                  textWithHeading("תיאור תקלה", fault.faultDescription),
-                  textWithHeading("מיקום", fault.location),
-                  textWithHeading("תיאור טיפול", fault.handleDescription),
-                  textWithHeading("תאריך טיפול", fault.handleDate),
-                  textWithHeading("סוג תקלה", fault.apartmentFaultTypeName),
-                  textWithHeading("האם תקלה חוזרת", fault.isRecurring),
-                  textWithHeading("פותח תקלה", fault.creator),
-                  textWithHeading("סוגר תקלה", fault.handler),
+                  IconButton(
+                      onPressed:
+                          fault.handleDate != null && fault.handleDate!.isNotEmpty
+                              ? null
+                              : () {
+                                  controller.getApartmentFaultDetails(
+                                      fault.id!, true);
+                                },
+                      icon: const Icon(Icons.edit)),
+                  IconButton(
+                      onPressed: () => controller.showDeleteDialog(fault.id!),
+                      icon: const Icon(Icons.delete)),
                 ],
               ),
-            ),
-            Row(
-              children: [
-                IconButton(
-                    onPressed:
-                        fault.handleDate != null && fault.handleDate!.isNotEmpty
-                            ? null
-                            : () {
-                                controller.getApartmentFaultDetails(
-                                    fault.id!, true);
-                              },
-                    icon: const Icon(Icons.edit)),
-                IconButton(
-                    onPressed: () => controller.showDeleteDialog(fault.id!),
-                    icon: const Icon(Icons.delete)),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       onTap: () => controller.getApartmentFaultDetails(fault.id!, false),

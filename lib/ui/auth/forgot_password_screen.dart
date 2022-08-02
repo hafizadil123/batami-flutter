@@ -1,11 +1,12 @@
+import 'package:batami/controllers/auth/fogot_password_controller.dart';
 import 'package:batami/controllers/auth/login_controller.dart';
 import 'package:batami/helpers/custom_colors.dart';
 import 'package:batami/helpers/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginScreen extends GetView<LoginController> {
-  const LoginScreen({Key? key}) : super(key: key);
+class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,14 @@ class LoginScreen extends GetView<LoginController> {
           children: [
             Container(
               height: Get.mediaQuery.size.height * 0.4,
-              child: Image.asset(
-                "lib/assets/images/batami_logo.png",
-                fit: BoxFit.contain,
-                width: Get.size.width * 0.4,
+              alignment: Alignment.center,
+              child: const Text(
+                "לשחזר סיסמה",
+                style: TextStyle(
+                  fontSize: 36.0,
+                  color: CustomColors.colorMain,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             SizedBox(
@@ -52,20 +57,19 @@ class LoginScreen extends GetView<LoginController> {
                       ),
                     ),
                     TextFormField(
-                      controller: controller.passwordController,
+                      controller: controller.contactInfoController,
                       keyboardType: TextInputType.text,
                       cursorColor: CustomColors.colorSecondary,
                       style: const TextStyle(
                           color: CustomColors.colorSecondary,
                           letterSpacing: 1.5),
                       decoration: const InputDecoration(
-                        hintText: "סיסמה",
+                        hintText: "דואל / נייד",
                         contentPadding: EdgeInsets.all(10.0),
                         focusColor: CustomColors.colorSecondary,
                         hintStyle:
                             TextStyle(color: CustomColors.colorSecondary),
                       ),
-                      obscureText: true,
                     ),
                     ElevatedButton(
                         onPressed: () {
@@ -73,18 +77,21 @@ class LoginScreen extends GetView<LoginController> {
                               .trim()
                               .isEmpty) {
                             Get.defaultDialog(
-                                title: "עֵרָנִי", middleText: "שם משתמש לא יכול להיות ריק");
+                                title: "עֵרָנִי",
+                                middleText: "שם משתמש לא יכול להיות ריק");
                             return;
-                          } else if (controller.passwordController.text
+                          } else if (controller.contactInfoController.text
                               .trim()
                               .isEmpty) {
                             Get.defaultDialog(
-                                title: "עֵרָנִי", middleText: "הסיסמה לא יכולה להיות ריקה");
+                                title: "עֵרָנִי",
+                                middleText:
+                                    "לא ניתן להשאיר את פרטי הקשר ריקים");
                             return;
                           } else {
-                            controller.loginUser(
+                            controller.callForgotPassword(
                                 controller.usernameController.text.trim(),
-                                controller.passwordController.text.trim());
+                                controller.contactInfoController.text.trim());
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -97,18 +104,6 @@ class LoginScreen extends GetView<LoginController> {
                             fontSize: 20.0,
                           ),
                         )),
-                    GestureDetector(
-                      child: const Text(
-                        "שכחתי סיסמה",
-                        style: TextStyle(
-                            color: CustomColors.colorSecondary,
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      onTap: () {
-                        Get.toNamed('/forgot_password');
-                      },
-                    )
                   ],
                 ),
               ),
