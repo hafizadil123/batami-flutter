@@ -2,13 +2,11 @@
 import 'dart:convert';
 
 import 'package:batami/api/dio_singleton.dart';
-import 'package:batami/bindings/daily_attendance_binding.dart';
 import 'package:batami/helpers/constants.dart';
 import 'package:batami/helpers/utils.dart';
 import 'package:batami/model/auth/loggedin_user_response.dart';
 import 'package:batami/model/auth/login_response.dart';
 import 'package:batami/model/global/get_data_response.dart';
-import 'package:batami/ui/nav_screens/daily_attendance_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -42,6 +40,9 @@ class LoginController extends GetxController {
             .then((value) {
           _getLoggedInUser();
         });
+      } else if(res.statusCode == 400){
+        LoginResponse loginResponse = LoginResponse.fromJson(res.data);
+        Get.defaultDialog(title: "עֵרָנִי", middleText: "${loginResponse.errorDescription}");
       }
     }).catchError((error) {
       print(error);

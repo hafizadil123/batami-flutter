@@ -1,5 +1,5 @@
 
-import 'package:batami/controllers/login_controller.dart';
+import 'package:batami/controllers/auth/login_controller.dart';
 import 'package:get/get.dart';
 
 class LoginBinding implements Bindings {
