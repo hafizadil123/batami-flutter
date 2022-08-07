@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:batami/api/dio_singleton.dart';
@@ -49,7 +48,9 @@ class LoginController extends GetxController {
       ErrorResponse errorResponse = ErrorResponse.fromJson(error.response.data);
 
       print("${errorResponse.errorDescription ?? ""}");
-      Get.defaultDialog(title: "עֵרָנִי", middleText: "${errorResponse.errorDescription ?? ""}");
+      Get.defaultDialog(
+          title: "עֵרָנִי",
+          middleText: "${errorResponse.errorDescription ?? ""}");
       isLoading.value = false;
     });
   }
@@ -96,8 +97,10 @@ class LoginController extends GetxController {
             .write(PREF_APP_DATA, jsonEncode(getData.toJson()))
             .then((value) {
           Get.defaultDialog(title: "הַצלָחָה", middleText: "מְחוּבָּר");
-          Get.offAllNamed(getLoggedInUser().userType!.toLowerCase().contains('volunteer') ?
-          '/daily_attendance': '/save_document');
+          Get.offAllNamed(
+              getLoggedInUser().userType!.toLowerCase().contains('volunteer')
+                  ? '/daily_attendance'
+                  : '/save_document');
         });
       }
     }).catchError((error) {

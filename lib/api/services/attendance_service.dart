@@ -29,9 +29,10 @@ class AttendanceService {
         );
   }
 
-  Future<Response<dynamic>> saveAnyExit() {
+  Future<Response<dynamic>> saveAnyExit(jsonObject) {
     return DioSingleton().getDio().post(
           "api/Inner/AttendanceDailySaveAnyExit",
+      data: jsonObject
         );
   }
 

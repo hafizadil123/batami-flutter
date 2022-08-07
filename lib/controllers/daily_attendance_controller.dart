@@ -1,4 +1,3 @@
-
 import 'package:batami/api/dio_singleton.dart';
 import 'package:batami/model/attendance/attendance_daily_response.dart';
 import 'package:batami/model/attendance/save_shift_response.dart';
@@ -12,17 +11,13 @@ class DailyAttendanceController extends GetxController {
   RxString responseMsg = "".obs;
   RxBool responseResult = false.obs;
 
-  // var startBtnEnabled = true.obs;
-  // var endBtnEnabled = true.obs;
-  // var allDayBtnEnabled = true.obs;
-
-  var selectedActionType = "נוכחות".obs;
-
   Rx<WorkActivityItem> selectedWorkActivity =
       WorkActivityItem(id: null, name: "שדה פעילות").obs;
 
   Rx<AbsenceTypes> selectedAbsenceType =
       AbsenceTypes(id: null, name: "סוג היעדרות").obs;
+
+  TextEditingController notesController = TextEditingController();
 
   void getAttendanceDaily() async {
     isLoading.value = true;
@@ -36,30 +31,22 @@ class DailyAttendanceController extends GetxController {
         print(res);
 
         AttendanceDailyResponse attendanceDailyResponse =
-        AttendanceDailyResponse.fromJson(res.data);
+            AttendanceDailyResponse.fromJson(res.data);
 
         attendanceDaily.value = attendanceDailyResponse;
 
         for (int i = 0;
-        i < attendanceDaily.value.workActivityItems!.length;
-        i++) {
+            i < attendanceDaily.value.workActivityItems!.length;
+            i++) {
           if (attendanceDaily.value.workActivityItems![i].id ==
               attendanceDaily.value.workActivityCode) {
             selectedWorkActivity.value =
-            attendanceDaily.value.workActivityItems![i];
+                attendanceDaily.value.workActivityItems![i];
           }
         }
 
         responseResult.value = attendanceDaily.value.result ?? false;
         responseMsg.value = attendanceDaily.value.message ?? "";
-
-        // if (attendanceDaily.value.latestStartTime != null) {
-        //   startBtnEnabled.value = false;
-        // }
-        //
-        // if (attendanceDaily.value.latestEndTime != null) {
-        //   endBtnEnabled.value = false;
-        // }
       }
     }).catchError((error) {
       print(error);
@@ -69,49 +56,61 @@ class DailyAttendanceController extends GetxController {
 
   void saveStartShift({String? actionType}) async {
     isLoading.value = true;
+    var response;
 
     Map<String, dynamic> map = {};
 
-    var response;
-
-    switch(actionType){
+    switch (actionType) {
       case "attendance":
-        map["workActivityCode"] = selectedWorkActivity.value.id;
-        response = await DioSingleton().getAttendanceService().saveAttendanceEntrance(map);
+        if ((selectedWorkActivity.value.demandNote ?? false) &&
+            notesController.text.trim().isEmpty) {
+          Get.defaultDialog(title: "עֵרָנִי", middleText: "שדה הערות נדרש");
+        } else {
+          map["workActivityCode"] = selectedWorkActivity.value.id;
+          map["workActivityNote"] = notesController.text.trim();
+
+          print(map);
+
+          response = await DioSingleton()
+              .getAttendanceService()
+              .saveAttendanceEntrance(map);
+        }
         break;
       case "absence":
         map["absenceCode"] = selectedAbsenceType.value.id;
-        response = await DioSingleton().getAttendanceService().saveAbsenceEntrance(map);
+        response = await DioSingleton()
+            .getAttendanceService()
+            .saveAbsenceEntrance(map);
         break;
       case "sickness":
-        response = await DioSingleton().getAttendanceService().saveSickEntrance(map);
+        response =
+            await DioSingleton().getAttendanceService().saveSickEntrance(map);
         break;
       default:
         response = null;
         break;
     }
 
+    isLoading.value = false;
 
+    if (response.statusCode != null &&
+        response.statusCode! >= 200 &&
+        response.statusCode! < 300) {
+      print(response);
 
+      SaveShiftResponse saveShiftResponse =
+          SaveShiftResponse.fromJson(response.data);
 
-    // DioSingleton().getAttendanceService().saveStartShift(map).then((res) {
-      isLoading.value = false;
-
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
-        debugPrint(response);
-
-        SaveShiftResponse saveShiftResponse =
-        SaveShiftResponse.fromJson(response.data);
-
-        responseResult.value = saveShiftResponse.result ?? false;
-        responseMsg.value = saveShiftResponse.message ?? "";
-
-        if (responseResult.value) {
-          attendanceDaily.value.latestStartTime = saveShiftResponse.time;
-        }
+      responseResult.value = saveShiftResponse.result ?? false;
+      responseMsg.value = saveShiftResponse.message ?? "";
+      if (responseResult.value) {
+        getAttendanceDaily();
       }
+
+      // if (responseResult.value) {
+      //   attendanceDaily.value.latestStartTime = saveShiftResponse.time;
+      // }
+    }
     // }).catchError((error) {
     //   print(error);
     //   isLoading.value = false;
@@ -120,67 +119,67 @@ class DailyAttendanceController extends GetxController {
 
   void saveEndShift() async {
     isLoading.value = true;
+    var response;
 
-    DioSingleton().getAttendanceService().saveAnyExit().then((res) {
-      isLoading.value = false;
+    Map<String, dynamic> map = {};
 
-      if (res.statusCode != null &&
-          res.statusCode! >= 200 &&
-          res.statusCode! < 300) {
-        print(res);
+    response = await DioSingleton().getAttendanceService().saveAnyExit(map);
 
-        SaveShiftResponse saveShiftResponse =
-        SaveShiftResponse.fromJson(res.data);
+    isLoading.value = false;
 
-        responseResult.value = saveShiftResponse.result ?? false;
-        responseMsg.value = saveShiftResponse.message ?? "";
+    if (response.statusCode != null &&
+        response.statusCode! >= 200 &&
+        response.statusCode! < 300) {
+      print(response);
 
-        if (responseResult.value) {
-          attendanceDaily.value.latestEndTime = saveShiftResponse.time;
-        }
+      SaveShiftResponse saveShiftResponse =
+          SaveShiftResponse.fromJson(response.data);
+
+      responseResult.value = saveShiftResponse.result ?? false;
+      responseMsg.value = saveShiftResponse.message ?? "";
+
+      if (responseResult.value) {
+        getAttendanceDaily();
       }
-    }).catchError((error) {
-      print(error);
-      isLoading.value = false;
-    });
+    }
   }
 
   void saveFullDay({String? actionType}) async {
     isLoading.value = true;
-
+    var response;
     Map<String, dynamic> map = {};
 
-    var response;
-
-    switch(actionType){
+    switch (actionType) {
       case "absence":
         map["absenceCode"] = selectedAbsenceType.value.id;
-        response = await DioSingleton().getAttendanceService().saveFullAbsenceDay(map);
+        response =
+            await DioSingleton().getAttendanceService().saveFullAbsenceDay(map);
         break;
       case "sickness":
-        response = await DioSingleton().getAttendanceService().saveFullSickDay(map);
+        response =
+            await DioSingleton().getAttendanceService().saveFullSickDay(map);
         break;
       default:
         response = null;
         break;
     }
 
-      isLoading.value = false;
+    isLoading.value = false;
 
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
-        print(response);
+    if (response.statusCode != null &&
+        response.statusCode! >= 200 &&
+        response.statusCode! < 300) {
+      print(response);
 
-        SaveShiftResponse saveShiftResponse =
-        SaveShiftResponse.fromJson(response.data);
+      SaveShiftResponse saveShiftResponse =
+          SaveShiftResponse.fromJson(response.data);
 
-        responseResult.value = saveShiftResponse.result ?? false;
-        responseMsg.value = saveShiftResponse.message ?? "";
+      responseResult.value = saveShiftResponse.result ?? false;
+      responseMsg.value = saveShiftResponse.message ?? "";
 
-        if (responseResult.value) {
-          attendanceDaily.value.latestEndTime = saveShiftResponse.time;
-        }
+      if (responseResult.value) {
+        getAttendanceDaily();
       }
+    }
   }
 }

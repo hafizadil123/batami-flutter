@@ -29,7 +29,6 @@ class AttendanceDailyResponse {
     this.message,
     this.workActivityCode,
     this.workActivityItems,
-
     this.allowAttendanceStart,
     this.allowAttendanceEnd,
     this.allowAbsenceStart,
@@ -52,10 +51,11 @@ class AttendanceDailyResponse {
       result: parsedJson['result'],
       message: parsedJson['message'],
       workActivityCode: parsedJson['workActivityCode'],
-      workActivityItems: List.from(parsedJson['workActivityItems'])
-          .map((e) => WorkActivityItem.fromJson(e))
-          .toList(),
-
+      workActivityItems: parsedJson['workActivityItems'] != null
+          ? List.from(parsedJson['workActivityItems'])
+              .map((e) => WorkActivityItem.fromJson(e))
+              .toList()
+          : [],
       allowAttendanceStart: parsedJson['allowAttendanceStart'],
       allowAttendanceEnd: parsedJson['allowAttendanceEnd'],
       allowAbsenceStart: parsedJson['allowAbsenceStart'],
@@ -64,9 +64,11 @@ class AttendanceDailyResponse {
       allowSickStart: parsedJson['allowSickStart'],
       allowSickEnd: parsedJson['allowSickEnd'],
       allowSickAllDay: parsedJson['allowSickAllDay'],
-      existingData: List.from(parsedJson['existingData'])
-          .map((e) => ExistingData.fromJson(e))
-          .toList(),
+      existingData: parsedJson['existingData'] != null
+          ? List.from(parsedJson['existingData'])
+              .map((e) => ExistingData.fromJson(e))
+              .toList()
+          : [],
       absenceCode: parsedJson['absenceCode'],
       rowType: parsedJson['rowType'],
     );
@@ -78,12 +80,16 @@ class ExistingData {
   final String? activity;
   final String? startTime;
   final String? endTime;
+  final String? absenceName;
+  final String? note;
 
   ExistingData({
     this.id,
     this.activity,
     this.startTime,
     this.endTime,
+    this.absenceName,
+    this.note,
   });
 
   factory ExistingData.fromJson(Map<String, dynamic> parsedJson) {
@@ -92,6 +98,8 @@ class ExistingData {
       activity: parsedJson['activity'],
       startTime: parsedJson['startTime'],
       endTime: parsedJson['endTime'],
+      absenceName: parsedJson['absenceName'],
+      note: parsedJson['note'],
     );
   }
 }
@@ -99,16 +107,22 @@ class ExistingData {
 class WorkActivityItem {
   final int? id;
   final String? name;
+  final bool? demandNote;
+  final String? defaultNote;
 
   WorkActivityItem({
     this.id,
     this.name,
+    this.demandNote,
+    this.defaultNote,
   });
 
   factory WorkActivityItem.fromJson(Map<String, dynamic> parsedJson) {
     return WorkActivityItem(
       id: parsedJson['id'],
       name: parsedJson['name'],
+      demandNote: parsedJson['demandNote'],
+      defaultNote: parsedJson['defaultNote'],
     );
   }
 }
