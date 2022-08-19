@@ -31,6 +31,11 @@ class ApartmentFaultsController extends GetxController {
             ApartmentFaultsResponse.fromJson(res.data);
 
         apartmentFaults.value = apartmentFaultsResponse;
+
+        if(apartmentFaults.value.lockScreenInfo?.isLockScreen ?? false){
+          Get.offNamed("/lock_screen", parameters: {"lockScreenText": apartmentFaults.value.lockScreenInfo!.lockScreenText!});
+        }
+
       }
     }).catchError((error) {
       print(error);
@@ -58,6 +63,10 @@ class ApartmentFaultsController extends GetxController {
 
         ResultMessageResponse resultMessageResponse =
             ResultMessageResponse.fromJson(res.data);
+
+        if(resultMessageResponse.lockScreenInfo?.isLockScreen ?? false){
+          Get.offNamed("/lock_screen", parameters: {"lockScreenText": resultMessageResponse.lockScreenInfo!.lockScreenText!});
+        }
 
         Get.defaultDialog(
                 title: (resultMessageResponse.result ?? false)
@@ -96,6 +105,10 @@ class ApartmentFaultsController extends GetxController {
         ApartmentFaultDetails apartmentFaultDetailsResponse =
             ApartmentFaultDetails.fromJson(res.data);
 
+        if(apartmentFaultDetailsResponse.lockScreenInfo?.isLockScreen ?? false){
+          Get.offNamed("/lock_screen", parameters: {"lockScreenText": apartmentFaultDetailsResponse.lockScreenInfo!.lockScreenText!});
+        }
+
         if(openAddFaultForm){
           Get.toNamed('/add_apartment_fault',
               arguments: [apartmentFaultDetailsResponse]);
@@ -112,7 +125,7 @@ class ApartmentFaultsController extends GetxController {
 
   void showDeleteDialog(int id) {
     Get.defaultDialog(
-        title: "עֵרָנִי",
+        title: "",
         middleText: "האם אתה באמת רוצה למחוק את הפריט הזה?",
         actions: [
           ElevatedButton(

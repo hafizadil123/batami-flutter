@@ -110,7 +110,7 @@ class AddApartmentFaultController extends GetxController {
       apartmentFaultDetails!.location = locationController.text.trim();
     }
 
-    debugPrint(jsonEncode(apartmentFaultDetails!.toJson()));
+    // debugPrint(jsonEncode(apartmentFaultDetails!.toJson()));
 
     DioSingleton()
         .getApartmentFaultsService()
@@ -125,6 +125,10 @@ class AddApartmentFaultController extends GetxController {
 
         ResultMessageResponse resultMessageResponse =
             ResultMessageResponse.fromJson(res.data);
+
+        if(resultMessageResponse.lockScreenInfo?.isLockScreen ?? false){
+          Get.offNamed("/lock_screen", parameters: {"lockScreenText": resultMessageResponse.lockScreenInfo!.lockScreenText!});
+        }
 
         Get.defaultDialog(
                 title: (resultMessageResponse.result ?? false)

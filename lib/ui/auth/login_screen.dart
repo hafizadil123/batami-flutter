@@ -18,7 +18,8 @@ class LoginScreen extends GetView<LoginController> {
             Container(
               height: Get.mediaQuery.size.height * 0.4,
               child: Image.asset(
-                "lib/assets/images/batami_logo.png",
+                // "lib/assets/images/batami_logo.png",
+                "lib/assets/logo/batami_logo_android.png",
                 fit: BoxFit.contain,
                 width: Get.size.width * 0.4,
               ),
@@ -73,13 +74,13 @@ class LoginScreen extends GetView<LoginController> {
                               .trim()
                               .isEmpty) {
                             Get.defaultDialog(
-                                title: "עֵרָנִי", middleText: "שם משתמש לא יכול להיות ריק");
+                                title: "", middleText: "שם משתמש לא יכול להיות ריק");
                             return;
                           } else if (controller.passwordController.text
                               .trim()
                               .isEmpty) {
                             Get.defaultDialog(
-                                title: "עֵרָנִי", middleText: "הסיסמה לא יכולה להיות ריקה");
+                                title: "", middleText: "הסיסמה לא יכולה להיות ריקה");
                             return;
                           } else {
                             controller.loginUser(

@@ -1,20 +1,12 @@
 import 'dart:convert';
-import 'dart:math';
 
-import 'package:batami/bindings/auth/login_binding.dart';
 import 'package:batami/helpers/constants.dart';
 import 'package:batami/model/auth/loggedin_user_response.dart';
 import 'package:batami/model/global/get_data_response.dart';
-import 'package:batami/ui/auth/login_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 void handleResponseErrors(int statusCode) {
   switch (statusCode) {
@@ -68,58 +60,9 @@ Widget getLoadingBar() {
   );
 }
 
-buildLoadingDialog() {
-  return Get.dialog(getLoadingBar(), barrierDismissible: false);
-}
-
-dismissLoadingDialog() {
-  if (Get.isDialogOpen ?? false) {
-    Get.back();
-  }
-}
-
 logoutAndGoToLogin() {
   // GetStorage().erase().then((value) => Get.offAll(() => LoginScreen(), binding: LoginBinding()));
   GetStorage().erase().then((value) => Get.offAllNamed('/login'));
-}
-
-getAppBar(String title,
-    {Function? searchFunc, Function? refreshFunc, Function? plusFunc}) {
-  return AppBar(
-    title: Text(title),
-    centerTitle: true,
-    backgroundColor: const Color.fromARGB(255, 82, 174, 213),
-    automaticallyImplyLeading: true,
-    elevation: 0,
-    actions: [
-      searchFunc != null
-          ? IconButton(
-              icon: const Icon(Icons.search, color: Colors.white),
-              onPressed: () {
-                return searchFunc();
-              },
-            )
-          : const SizedBox.shrink(),
-      refreshFunc != null
-          ? IconButton(
-              icon: const Icon(Icons.refresh, color: Colors.white),
-              onPressed: () {
-                return refreshFunc();
-              },
-            )
-          : const SizedBox.shrink(),
-      plusFunc != null
-          ? IconButton(
-              icon: const Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                return plusFunc();
-              })
-          : const SizedBox.shrink()
-    ],
-  );
 }
 
 Widget textWithHeading(String? heading, String? text){

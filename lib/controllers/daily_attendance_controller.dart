@@ -1,4 +1,5 @@
 import 'package:batami/api/dio_singleton.dart';
+import 'package:batami/helpers/utils.dart';
 import 'package:batami/model/attendance/attendance_daily_response.dart';
 import 'package:batami/model/attendance/save_shift_response.dart';
 import 'package:batami/model/global/get_data_response.dart';
@@ -19,6 +20,8 @@ class DailyAttendanceController extends GetxController {
 
   TextEditingController notesController = TextEditingController();
 
+  var selectedTabIndex = 0.obs;
+
   void getAttendanceDaily() async {
     isLoading.value = true;
 
@@ -35,6 +38,10 @@ class DailyAttendanceController extends GetxController {
 
         attendanceDaily.value = attendanceDailyResponse;
 
+        if(attendanceDaily.value.lockScreenInfo?.isLockScreen ?? false){
+          Get.offNamed("/lock_screen", parameters: {"lockScreenText": attendanceDaily.value.lockScreenInfo!.lockScreenText!});
+        }
+
         for (int i = 0;
             i < attendanceDaily.value.workActivityItems!.length;
             i++) {
@@ -44,6 +51,32 @@ class DailyAttendanceController extends GetxController {
                 attendanceDaily.value.workActivityItems![i];
           }
         }
+
+        if(attendanceDaily.value.workActivityCode != null){
+            selectedWorkActivity.value = attendanceDaily
+                .value.workActivityItems!
+                .firstWhere((p) => p.id == attendanceDaily.value.workActivityCode,
+                orElse: () => WorkActivityItem(id: null, name: "שדה פעילות"));
+        }
+
+        // if(attendanceDaily.value.rowType != null){
+          switch(attendanceDaily.value.rowType){
+            case "attendance":
+              selectedTabIndex.value = 0;
+              break;
+            case "absence":
+              selectedTabIndex.value = 1;
+              break;
+            case "sick":
+              selectedTabIndex.value = 2;
+              break;
+            default:
+              selectedTabIndex.value = 0;
+              break;
+          }
+        // } else{
+        //   selectedTabIndex.value = 0;
+        // }
 
         responseResult.value = attendanceDaily.value.result ?? false;
         responseMsg.value = attendanceDaily.value.message ?? "";
@@ -60,11 +93,12 @@ class DailyAttendanceController extends GetxController {
 
     Map<String, dynamic> map = {};
 
+
     switch (actionType) {
       case "attendance":
         if ((selectedWorkActivity.value.demandNote ?? false) &&
             notesController.text.trim().isEmpty) {
-          Get.defaultDialog(title: "עֵרָנִי", middleText: "שדה הערות נדרש");
+          Get.defaultDialog(title: "", middleText: "שדה הערות נדרש");
         } else {
           map["workActivityCode"] = selectedWorkActivity.value.id;
           map["workActivityNote"] = notesController.text.trim();
@@ -78,11 +112,13 @@ class DailyAttendanceController extends GetxController {
         break;
       case "absence":
         map["absenceCode"] = selectedAbsenceType.value.id;
+        map["workActivityNote"] = notesController.text.trim();
         response = await DioSingleton()
             .getAttendanceService()
             .saveAbsenceEntrance(map);
         break;
-      case "sickness":
+      case "sick":
+        map["workActivityNote"] = notesController.text.trim();
         response =
             await DioSingleton().getAttendanceService().saveSickEntrance(map);
         break;
@@ -101,20 +137,17 @@ class DailyAttendanceController extends GetxController {
       SaveShiftResponse saveShiftResponse =
           SaveShiftResponse.fromJson(response.data);
 
+      if(saveShiftResponse.lockScreenInfo?.isLockScreen ?? false){
+        Get.offNamed("/lock_screen", parameters: {"lockScreenText": saveShiftResponse.lockScreenInfo!.lockScreenText!});
+      }
+
       responseResult.value = saveShiftResponse.result ?? false;
       responseMsg.value = saveShiftResponse.message ?? "";
       if (responseResult.value) {
+        // DefaultTabController.of(context!)!.animateTo(selectedTabIndex.value);
         getAttendanceDaily();
       }
-
-      // if (responseResult.value) {
-      //   attendanceDaily.value.latestStartTime = saveShiftResponse.time;
-      // }
     }
-    // }).catchError((error) {
-    //   print(error);
-    //   isLoading.value = false;
-    // });
   }
 
   void saveEndShift() async {
@@ -134,6 +167,10 @@ class DailyAttendanceController extends GetxController {
 
       SaveShiftResponse saveShiftResponse =
           SaveShiftResponse.fromJson(response.data);
+
+      if(saveShiftResponse.lockScreenInfo?.isLockScreen ?? false){
+        Get.offNamed("/lock_screen", parameters: {"lockScreenText": saveShiftResponse.lockScreenInfo!.lockScreenText!});
+      }
 
       responseResult.value = saveShiftResponse.result ?? false;
       responseMsg.value = saveShiftResponse.message ?? "";
@@ -155,7 +192,7 @@ class DailyAttendanceController extends GetxController {
         response =
             await DioSingleton().getAttendanceService().saveFullAbsenceDay(map);
         break;
-      case "sickness":
+      case "sick":
         response =
             await DioSingleton().getAttendanceService().saveFullSickDay(map);
         break;
@@ -173,6 +210,10 @@ class DailyAttendanceController extends GetxController {
 
       SaveShiftResponse saveShiftResponse =
           SaveShiftResponse.fromJson(response.data);
+
+      if(saveShiftResponse.lockScreenInfo?.isLockScreen ?? false){
+        Get.offNamed("/lock_screen", parameters: {"lockScreenText": saveShiftResponse.lockScreenInfo!.lockScreenText!});
+      }
 
       responseResult.value = saveShiftResponse.result ?? false;
       responseMsg.value = saveShiftResponse.message ?? "";

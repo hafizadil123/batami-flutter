@@ -21,7 +21,8 @@ class LoginController extends GetxController {
 
     Map<String, dynamic> params = {};
 
-    params["username"] = username + "^13";
+    // params["username"] = username + "^13";
+    params["username"] = username + "^14";
     params["password"] = password;
     params["grant_type"] = "password";
 
@@ -49,7 +50,7 @@ class LoginController extends GetxController {
 
       print("${errorResponse.errorDescription ?? ""}");
       Get.defaultDialog(
-          title: "עֵרָנִי",
+          title: "",
           middleText: "${errorResponse.errorDescription ?? ""}");
       isLoading.value = false;
     });

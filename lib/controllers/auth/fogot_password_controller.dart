@@ -36,7 +36,7 @@ class ForgotPasswordController extends GetxController {
           });
         } else {
           Get.defaultDialog(
-              title: "עֵרָנִי", middleText: "${resultMessageResponse.message}");
+              title: "", middleText: "${resultMessageResponse.message}");
         }
       }
     }).catchError((error) {

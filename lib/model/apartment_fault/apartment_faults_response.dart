@@ -1,3 +1,5 @@
+import 'package:batami/model/global/lock_screen_info.dart';
+
 class ApartmentFaultsResponse {
   List<Fault>? rows;
   int? total;
@@ -5,6 +7,7 @@ class ApartmentFaultsResponse {
   int? records;
   bool? result;
   String? message;
+  LockScreenInfo? lockScreenInfo;
 
   ApartmentFaultsResponse(
       {this.rows,
@@ -12,7 +15,8 @@ class ApartmentFaultsResponse {
       this.page,
       this.records,
       this.result,
-      this.message});
+      this.message,
+      this.lockScreenInfo,});
 
   ApartmentFaultsResponse.fromJson(Map<String, dynamic> json) {
     if (json['rows'] != null) {
@@ -26,6 +30,8 @@ class ApartmentFaultsResponse {
     records = json['records'];
     result = json['result'];
     message = json['message'];
+
+    lockScreenInfo = LockScreenInfo.fromJson(json['lockScreenInfo']);
   }
 
   Map<String, dynamic> toJson() {
@@ -38,6 +44,7 @@ class ApartmentFaultsResponse {
     data['records'] = records;
     data['result'] = result;
     data['message'] = message;
+    data['lockScreenInfo'] = lockScreenInfo;
     return data;
   }
 }

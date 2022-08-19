@@ -51,6 +51,8 @@ class GetData {
   late final List<SelectedYearTypes> selectedYearTypes;
   late final List<SchoolCityTypes> schoolCityTypes;
   late final List<ApartmentFaultCategoryTypes> apartmentFaultCategoryTypes;
+  late final List<ButtonHebrewTexts> buttonHebrewTexts;
+
   // late final List<ApartmentFaultTypes> apartmentFaultTypes;
   late final List<LetterTypes> letterTypes;
   late final bool result;
@@ -126,6 +128,9 @@ class GetData {
     letterTypes = List.from(json['letterTypes'])
         .map((e) => LetterTypes.fromJson(e))
         .toList();
+    buttonHebrewTexts = List.from(json['buttonHebrewTexts'])
+        .map((e) => ButtonHebrewTexts.fromJson(e))
+        .toList();
     result = json['result'];
     message = json['message'];
   }
@@ -145,7 +150,8 @@ class GetData {
     _data['countryTypes'] = countryTypes.map((e) => e.toJson()).toList();
     _data['familyStatusTypes'] =
         familyStatusTypes.map((e) => e.toJson()).toList();
-    _data['documentCategoryTypes'] = documentCategoryTypes.map((e) => e.toJson()).toList();
+    _data['documentCategoryTypes'] =
+        documentCategoryTypes.map((e) => e.toJson()).toList();
     _data['hmoTypes'] = hmoTypes.map((e) => e.toJson()).toList();
     _data['citizenshipTypes'] =
         citizenshipTypes.map((e) => e.toJson()).toList();
@@ -169,6 +175,7 @@ class GetData {
     // _data['apartmentFaultTypes'] =
     //     apartmentFaultTypes.map((e) => e.toJson()).toList();
     _data['letterTypes'] = letterTypes.map((e) => e.toJson()).toList();
+    _data['buttonHebrewTexts'] = buttonHebrewTexts.map((e) => e.toJson()).toList();
     _data['result'] = result;
     _data['message'] = message;
     return _data;
@@ -351,7 +358,7 @@ class FamilyStatusTypes {
   }
 }
 
-class DocumentCategoryTypes{
+class DocumentCategoryTypes {
   DocumentCategoryTypes({
     this.id,
     this.name,
@@ -370,9 +377,8 @@ class DocumentCategoryTypes{
     id = json['id'];
     name = json['name'];
     isForAllRegionalCoordinators = json['isForAllRegionalCoordinators'];
-    regionalCoordinators = List.from(json['regionalCoordinators'])
-        .map((e) => e as int)
-        .toList();
+    regionalCoordinators =
+        List.from(json['regionalCoordinators']).map((e) => e as int).toList();
     documentTypes = List.from(json['documentTypes'])
         .map((e) => DocumentTypes.fromJson(e))
         .toList();
@@ -385,8 +391,7 @@ class DocumentCategoryTypes{
     _data['isForAllRegionalCoordinators'] = isForAllRegionalCoordinators;
     _data['regionalCoordinators'] =
         regionalCoordinators!.map((e) => e).toList();
-    _data['documentTypes'] =
-        documentTypes!.map((e) => e.toJson()).toList();
+    _data['documentTypes'] = documentTypes!.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -759,8 +764,7 @@ class ApartmentFaultCategoryTypes {
     final _data = <String, dynamic>{};
     _data['id'] = id;
     _data['name'] = name;
-    _data['types'] =
-        types.map((e) => e.toJson()).toList();
+    _data['types'] = types.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -833,6 +837,28 @@ class LetterTypes {
     _data['isCandidate'] = isCandidate;
     _data['isVolunteer'] = isVolunteer;
     _data['isUnknown'] = isUnknown;
+    _data['id'] = id;
+    _data['name'] = name;
+    return _data;
+  }
+}
+
+class ButtonHebrewTexts {
+  ButtonHebrewTexts({
+    required this.id,
+    required this.name,
+  });
+
+  late final String id;
+  late final String name;
+
+  ButtonHebrewTexts.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
     _data['id'] = id;
     _data['name'] = name;
     return _data;

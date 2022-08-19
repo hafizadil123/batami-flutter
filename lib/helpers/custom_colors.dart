@@ -42,5 +42,6 @@ class CustomColors {
   static const black = Color(0xFF000000);
   static const light_black = Color(0xFF383838);
   static const translucent_black = Color(0x80000000);
+  static const green_bg = Color(0xFFC1CD23);
 
 }

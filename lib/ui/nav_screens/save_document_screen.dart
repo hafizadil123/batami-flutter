@@ -186,23 +186,23 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                               //     .trim()
                               //     .isEmpty) {
                               //   Get.defaultDialog(
-                              //       title: "עֵרָנִי", middleText: "נדרש תיאור");
+                              //       title: "", middleText: "נדרש תיאור");
                               //   return;
                               // } else
                               if (controller.selectedDocumentType.value.id ==
                                   null) {
                                 Get.defaultDialog(
-                                    title: "עֵרָנִי",
+                                    title: "",
                                     middleText: "נא להזין את סוג המסמך");
                                 return;
                               } else if (controller.toUploadFile == null) {
                                 Get.defaultDialog(
-                                    title: "עֵרָנִי", middleText: "נדרש קובץ");
+                                    title: "", middleText: "נדרש קובץ");
                                 return;
                               } else if (controller.toUploadFile!.lengthSync() >
                                   2000000) {
                                 Get.defaultDialog(
-                                    title: "עֵרָנִי",
+                                    title: "",
                                     middleText: "הקובץ צריך להיות פחות מ-2MB");
                                 return;
                               } else if (controller
@@ -213,7 +213,7 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                                       controller.selectedStartDate.value
                                           .millisecondsSinceEpoch) {
                                 Get.defaultDialog(
-                                    title: "עֵרָנִי",
+                                    title: "",
                                     middleText:
                                         "תאריך סיום קטן מתאריך התחלה, יש לתקן ולנסות שוב");
                               } else if (controller
@@ -221,14 +221,14 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                                       24 &&
                                   controller.selectedHmoType.value.id == null) {
                                 Get.defaultDialog(
-                                    title: "עֵרָנִי",
+                                    title: "",
                                     middleText: "נא להזין את סוג קופת חולים");
                               } else if (controller
                                           .selectedDocumentType.value.id ==
                                       5 &&
                                   controller.selectedBank.value.id == null) {
                                 Get.defaultDialog(
-                                    title: "עֵרָנִי",
+                                    title: "",
                                     middleText: "נא להיכנס לבנק");
                               } else if (controller
                                           .selectedDocumentType.value.id ==
@@ -237,7 +237,7 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                                       .trim()
                                       .isEmpty) {
                                 Get.defaultDialog(
-                                    title: "עֵרָנִי",
+                                    title: "",
                                     middleText: "חובה סניף בנק");
                                 return;
                               } else if (controller
@@ -247,7 +247,7 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                                       .trim()
                                       .isEmpty) {
                                 Get.defaultDialog(
-                                    title: "עֵרָנִי",
+                                    title: "",
                                     middleText: "נדרש חשבון בנק");
                                 return;
                               } else {

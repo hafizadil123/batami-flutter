@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:batami/model/global/lock_screen_info.dart';
+
 class ApartmentFaultDetails {
   int? id;
   String? apartmentName;
@@ -15,6 +19,7 @@ class ApartmentFaultDetails {
   String? handler;
   bool? result;
   String? message;
+  LockScreenInfo? lockScreenInfo;
 
   ApartmentFaultDetails(
       {this.id,
@@ -32,7 +37,10 @@ class ApartmentFaultDetails {
         this.creator,
         this.handler,
         this.result,
-        this.message});
+        this.message,
+        this.lockScreenInfo,
+
+      });
 
   ApartmentFaultDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,6 +59,7 @@ class ApartmentFaultDetails {
     handler = json['handler'];
     result = json['result'];
     message = json['message'];
+    lockScreenInfo = LockScreenInfo.fromJson(json['lockScreenInfo']);
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +69,7 @@ class ApartmentFaultDetails {
     data['faultTypeCode'] = this.faultTypeCode;
     data['isRecurring'] = this.isRecurring;
     data['occurrenceDate'] = this.occurrenceDate;
+    data['lockScreenInfo'] = this.lockScreenInfo;
 
     if(apartmentName!=null){
       data['apartmentName'] = this.apartmentName;}
@@ -94,6 +104,9 @@ class ApartmentFaultDetails {
     }
     if(message!=null) {
       data['message'] = this.message;
+    }
+    if(lockScreenInfo!=null) {
+      data['lockScreenInfo'] = jsonEncode(lockScreenInfo!.toJson());
     }
     return data;
   }

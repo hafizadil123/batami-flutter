@@ -77,14 +77,14 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                               .trim()
                               .isEmpty) {
                             Get.defaultDialog(
-                                title: "עֵרָנִי",
+                                title: "",
                                 middleText: "שם משתמש לא יכול להיות ריק");
                             return;
                           } else if (controller.contactInfoController.text
                               .trim()
                               .isEmpty) {
                             Get.defaultDialog(
-                                title: "עֵרָנִי",
+                                title: "",
                                 middleText:
                                     "לא ניתן להשאיר את פרטי הקשר ריקים");
                             return;

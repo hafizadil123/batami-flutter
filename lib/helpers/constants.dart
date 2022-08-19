@@ -1,4 +1,5 @@
-final String GLOBAL_IP = "http://api.bat-ami.org.il/Batami.webapitest/";
+// final String GLOBAL_IP = "http://api.bat-ami.org.il/Batami.webapitest/";
+final String GLOBAL_IP = "http://api.bat-ami.org.il/Batami.webapi/";
 
 const String PREF_AUTH_KEY = "AUTH_KEY";
 const String PREF_LOGGED_IN_USER = "USER_DATA";

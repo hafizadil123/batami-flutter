@@ -1,5 +1,8 @@
+import 'package:batami/model/global/lock_screen_info.dart';
+
 class AttendanceDailyResponse {
   final String? currentDate;
+  final String? currentStatus;
   final bool? enabled;
   String? latestStartTime;
   String? latestEndTime;
@@ -19,9 +22,11 @@ class AttendanceDailyResponse {
   final List<ExistingData>? existingData;
   final int? absenceCode;
   final String? rowType;
+  final LockScreenInfo? lockScreenInfo;
 
   AttendanceDailyResponse({
     this.currentDate,
+    this.currentStatus,
     this.enabled,
     this.latestStartTime,
     this.latestEndTime,
@@ -40,11 +45,13 @@ class AttendanceDailyResponse {
     this.existingData,
     this.absenceCode,
     this.rowType,
+    this.lockScreenInfo,
   });
 
   factory AttendanceDailyResponse.fromJson(Map<String, dynamic> parsedJson) {
     return AttendanceDailyResponse(
       currentDate: parsedJson['currentDate'],
+      currentStatus: parsedJson['currentStatus'],
       enabled: parsedJson['enabled'],
       latestStartTime: parsedJson['latestStartTime'],
       latestEndTime: parsedJson['latestEndTime'],
@@ -71,6 +78,7 @@ class AttendanceDailyResponse {
           : [],
       absenceCode: parsedJson['absenceCode'],
       rowType: parsedJson['rowType'],
+      lockScreenInfo: LockScreenInfo.fromJson(parsedJson['lockScreenInfo']),
     );
   }
 }
