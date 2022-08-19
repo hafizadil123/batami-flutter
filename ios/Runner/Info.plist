@@ -24,6 +24,21 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Media Library usage is required so that user can upload document proof while uploading apartments data</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera usage is required so that user can capture and upload document proof while uploading apartments data</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone usage is required so that user can capture document proof using video while uploading apartments data</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Library usage is required so that user can upload document proof while uploading apartments data</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,6 +56,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UISupportsDocumentBrowser</key>
+	<true/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
