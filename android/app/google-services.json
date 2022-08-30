@@ -40,6 +40,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713065625334:android:cd9c7a3de5cfd5e4c6ded7",
+        "android_client_info": {
+          "package_name": "io.cordova.Batami"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713065625334-c9bg20n6v7t58fvdqh37c802uemsbhat.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIPDBESL7cRykMWT5YwxjxSmhnBd6zkcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713065625334-c9bg20n6v7t58fvdqh37c802uemsbhat.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "713065625334-o7lfmljpvgrh9e9j0609auertfp1ksaa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.batami.mobile.batami"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

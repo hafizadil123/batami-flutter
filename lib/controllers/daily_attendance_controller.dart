@@ -3,6 +3,7 @@ import 'package:batami/helpers/utils.dart';
 import 'package:batami/model/attendance/attendance_daily_response.dart';
 import 'package:batami/model/attendance/save_shift_response.dart';
 import 'package:batami/model/global/get_data_response.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +22,11 @@ class DailyAttendanceController extends GetxController {
   TextEditingController notesController = TextEditingController();
 
   var selectedTabIndex = 0.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
 
   void getAttendanceDaily() async {
     isLoading.value = true;

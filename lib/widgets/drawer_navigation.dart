@@ -132,7 +132,8 @@ class DrawerNavigation extends StatelessWidget {
       title: Text('לאתר אישי'),
       onTap: () async {
         final Uri _url =
-            Uri.parse('http://api.bat-ami.org.il/ApiTest/Account/Details');
+            // Uri.parse('http://api.bat-ami.org.il/ApiTest/Account/Details');
+            Uri.parse('http://api.bat-ami.org.il/Api/Account/Details');
         if (await canLaunchUrl(_url)) {
           await launchUrl(
             _url,
@@ -164,7 +165,8 @@ class DrawerNavigation extends StatelessWidget {
       title: Text('לאתר אישי'),
       onTap: () async {
         final Uri _url =
-            Uri.parse('http://api.bat-ami.org.il/ApiTest/Account/Details');
+            // Uri.parse('http://api.bat-ami.org.il/ApiTest/Account/Details');
+            Uri.parse('http://api.bat-ami.org.il/Api/Account/Details');
         if (await canLaunchUrl(_url)) {
           await launchUrl(
             _url,

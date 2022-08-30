@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,9 +46,18 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCKxALkYdxx4zPDgS70HmBXPWfvYAcaBQM',
+    appId: '1:713065625334:web:5d564024d1c2b62cc6ded7',
+    messagingSenderId: '713065625334',
+    projectId: 'batami',
+    authDomain: 'batami.firebaseapp.com',
+    storageBucket: 'batami.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCIPDBESL7cRykMWT5YwxjxSmhnBd6zkcA',
-    appId: '1:713065625334:android:778e05cf37a7cfcfc6ded7',
+    appId: '1:713065625334:android:cd9c7a3de5cfd5e4c6ded7',
     messagingSenderId: '713065625334',
     projectId: 'batami',
     storageBucket: 'batami.appspot.com',
@@ -59,11 +65,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAt60hz4MPVnNoll85WaUzBB8Pd_hnafPs',
-    appId: '1:713065625334:ios:f95049d889d54406c6ded7',
+    appId: '1:713065625334:ios:18bc8ef83c7a781ec6ded7',
     messagingSenderId: '713065625334',
     projectId: 'batami',
     storageBucket: 'batami.appspot.com',
-    iosClientId: '713065625334-o7lfmljpvgrh9e9j0609auertfp1ksaa.apps.googleusercontent.com',
-    iosBundleId: 'com.batami.mobile.batami',
+    iosClientId: '713065625334-vslt5je55e49i5jg5e020p563kt95ovg.apps.googleusercontent.com',
+    iosBundleId: 'io.cordova.Batami',
   );
 }
