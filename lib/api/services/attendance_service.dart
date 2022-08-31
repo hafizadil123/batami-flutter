@@ -1,5 +1,6 @@
 import 'package:batami/api/dio_singleton.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 
 class AttendanceService {
   Future<Response<dynamic>> getAttendanceDaily() {
@@ -9,6 +10,7 @@ class AttendanceService {
   }
 
   Future<Response<dynamic>> saveAttendanceEntrance(jsonObject) {
+    jsonObject["time"] = DateFormat('HH:mm').format(DateTime.now());
     return DioSingleton().getDio().post(
           "api/Inner/AttendanceDailySaveAttendanceEntrance",
       data: jsonObject
@@ -16,6 +18,7 @@ class AttendanceService {
   }
 
   Future<Response<dynamic>> saveAbsenceEntrance(jsonObject) {
+    jsonObject["time"] = DateFormat('HH:mm').format(DateTime.now());
     return DioSingleton().getDio().post(
           "api/Inner/AttendanceDailySaveAbsenceEntrance",
       data: jsonObject
@@ -23,6 +26,7 @@ class AttendanceService {
   }
 
   Future<Response<dynamic>> saveSickEntrance(jsonObject) {
+    jsonObject["time"] = DateFormat('HH:mm').format(DateTime.now());
     return DioSingleton().getDio().post(
           "api/Inner/AttendanceDailySaveSickEntrance",
       data: jsonObject
@@ -30,6 +34,7 @@ class AttendanceService {
   }
 
   Future<Response<dynamic>> saveAnyExit(jsonObject) {
+    jsonObject["time"] = DateFormat('HH:mm').format(DateTime.now());
     return DioSingleton().getDio().post(
           "api/Inner/AttendanceDailySaveAnyExit",
       data: jsonObject
