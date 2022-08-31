@@ -259,6 +259,7 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
             : null,
         child: Text(
           controller.attendanceDaily.value.latestStartTime != null &&
+              controller.attendanceDaily.value.rowType !=null &&
                   // actionType!.contains(controller.attendanceDaily.value.rowType!)
                   controller.attendanceDaily.value.rowType! == actionType
               ? (controller.attendanceDaily.value.latestStartTime ?? "")
