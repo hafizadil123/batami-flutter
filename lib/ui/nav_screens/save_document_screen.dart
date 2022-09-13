@@ -200,10 +200,10 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                                     title: "", middleText: "נדרש קובץ");
                                 return;
                               } else if (controller.toUploadFile!.lengthSync() >
-                                  2000000) {
+                                  10000000) {
                                 Get.defaultDialog(
                                     title: "",
-                                    middleText: "הקובץ צריך להיות פחות מ-2MB");
+                                    middleText: "הקובץ צריך להיות פחות מ-10MB");
                                 return;
                               } else if (controller
                                           .selectedDocumentType.value.id ==

@@ -37,14 +37,6 @@ class MyApp extends StatelessWidget {
         Locale("he", "IL"),
       ],
       locale: const Locale("he", "IL"),
-      // home: GetStorage().read(PREF_AUTH_KEY) != null
-      //     ? DailyAttendanceScreen()
-      //     : LoginScreen(),
-      // initialBinding: GetStorage().read(PREF_AUTH_KEY) != null
-      //     ? DailyAttendanceBinding()
-      //     : LoginBinding(),
-
-
       initialRoute: GetStorage().read(PREF_AUTH_KEY) != null ? getLoggedInUser().userType!.toLowerCase().contains('volunteer') ?
       '/daily_attendance': '/save_document' : '/login',
       getPages: routes,
