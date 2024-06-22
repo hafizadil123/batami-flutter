@@ -255,7 +255,7 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                                primary: CustomColors.colorSecondary,
+                                backgroundColor: CustomColors.colorSecondary,
                                 fixedSize: const Size.fromWidth(250)),
                             child: const Text(
                               "שמור",
@@ -319,7 +319,7 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
               hint: Text(controller.selectedHmoType.value.name ?? "קופת חולים"),
               isExpanded: true,
               iconSize: 30.0,
-              style: TextStyle(color: CustomColors.colorSecondary),
+              style: TextStyle(color: CustomColors.textColor),
               items: hmoTypesMenuItems,
               onChanged: (HmoTypes? val) {
                 controller.selectedHmoType.value = val!;
@@ -333,8 +333,8 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: CustomColors.colorSecondary),
                 ),
-                focusColor: CustomColors.colorSecondary,
-                hintStyle: TextStyle(color: CustomColors.colorSecondary),
+                focusColor: CustomColors.textColor,
+                hintStyle: TextStyle(color: CustomColors.textColor),
               ),
             ),
           ],
@@ -371,7 +371,7 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
               hint: Text(controller.selectedBank.value.name ?? "בנק"),
               isExpanded: true,
               iconSize: 30.0,
-              style: TextStyle(color: CustomColors.colorSecondary),
+              style: TextStyle(color: CustomColors.textColor),
               items: bankMenuItems,
               onChanged: (Banks? val) {
                 controller.selectedBank.value = val!;
@@ -385,8 +385,8 @@ class SaveDocumentScreen extends GetView<SaveDocumentController> {
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: CustomColors.colorSecondary),
                 ),
-                focusColor: CustomColors.colorSecondary,
-                hintStyle: TextStyle(color: CustomColors.colorSecondary),
+                focusColor: CustomColors.textColor,
+                hintStyle: TextStyle(color: CustomColors.textColor),
               ),
             ),
             TextFormField(

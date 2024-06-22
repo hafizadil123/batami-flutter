@@ -121,7 +121,7 @@ class AddApartmentFaultScreen extends GetView<AddApartmentFaultController> {
                           controller: controller.faultDescriptionController,
                           maxLength: 110,
                           keyboardType: TextInputType.text,
-                          cursorColor: CustomColors.colorSecondary,
+                          cursorColor: CustomColors.textColor,
                           style: const TextStyle(letterSpacing: 1.5),
                           decoration: const InputDecoration(
                             hintText: "תיאור תקלה",
@@ -134,7 +134,7 @@ class AddApartmentFaultScreen extends GetView<AddApartmentFaultController> {
                               borderSide:
                                   BorderSide(color: CustomColors.colorSecondary),
                             ),
-                            focusColor: CustomColors.colorSecondary,
+                            focusColor: CustomColors.textColor,
                           ),
                         ),
                         Container(
@@ -209,7 +209,7 @@ class AddApartmentFaultScreen extends GetView<AddApartmentFaultController> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: CustomColors.colorSecondary,
+                              backgroundColor: CustomColors.colorSecondary,
                               // fixedSize: const Size.fromWidth(250),
                               fixedSize: Size.fromWidth(Get.size.width),
                             ),

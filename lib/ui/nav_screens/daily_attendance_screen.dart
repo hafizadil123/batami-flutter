@@ -174,14 +174,14 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   maxLength: 50,
-                  cursorColor: CustomColors.colorSecondary,
+                  cursorColor: CustomColors.textColor,
                   style: const TextStyle(
-                      color: CustomColors.colorSecondary, letterSpacing: 1.5),
+                      color: CustomColors.textColor, letterSpacing: 1.5),
                   decoration: const InputDecoration(
                     hintText: "הערות",
                     contentPadding: EdgeInsets.all(10.0),
-                    focusColor: CustomColors.colorSecondary,
-                    hintStyle: TextStyle(color: CustomColors.colorSecondary),
+                    focusColor: CustomColors.textColor,
+                    hintStyle: TextStyle(color: CustomColors.textColor),
                   ),
                 ),
               // : SizedBox.shrink(),
@@ -396,7 +396,7 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
       isExpanded: true,
       key: workActivityTypeDropDownKey,
       iconSize: 30.0,
-      style: TextStyle(color: CustomColors.colorSecondary),
+      style: TextStyle(color: CustomColors.textColor),
       items: controller.attendanceDaily.value.workActivityItems?.map(
         (val) {
           return DropdownMenuItem<WorkActivityItem>(
@@ -417,8 +417,8 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: CustomColors.colorSecondary),
         ),
-        focusColor: CustomColors.colorSecondary,
-        hintStyle: TextStyle(color: CustomColors.colorSecondary),
+        focusColor: CustomColors.textColor,
+        hintStyle: TextStyle(color: CustomColors.textColor),
       ),
     );
   }
@@ -433,7 +433,7 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
       isExpanded: true,
       iconSize: 30.0,
       key: absenceTypeDropDownKey,
-      style: const TextStyle(color: CustomColors.colorSecondary),
+      style: const TextStyle(color: CustomColors.textColor),
       items: absenceTypesItems,
       onChanged: (AbsenceTypes? val) {
         controller.selectedAbsenceType.value = val!;
@@ -447,8 +447,8 @@ class DailyAttendanceScreen extends GetView<DailyAttendanceController> {
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: CustomColors.colorSecondary),
         ),
-        focusColor: CustomColors.colorSecondary,
-        hintStyle: TextStyle(color: CustomColors.colorSecondary),
+        focusColor: CustomColors.textColor,
+        hintStyle: TextStyle(color: CustomColors.textColor),
       ),
     );
   }

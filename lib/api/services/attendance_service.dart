@@ -10,6 +10,7 @@ class AttendanceService {
   }
 
   Future<Response<dynamic>> saveAttendanceEntrance(jsonObject) {
+    jsonObject["date"] = DateFormat('yyyy-mm-dd').format(DateTime.now());
     jsonObject["time"] = DateFormat('HH:mm').format(DateTime.now());
     return DioSingleton().getDio().post(
           "api/Inner/AttendanceDailySaveAttendanceEntrance",
@@ -18,6 +19,7 @@ class AttendanceService {
   }
 
   Future<Response<dynamic>> saveAbsenceEntrance(jsonObject) {
+    jsonObject["date"] = DateFormat('yyyy-mm-dd').format(DateTime.now());
     jsonObject["time"] = DateFormat('HH:mm').format(DateTime.now());
     return DioSingleton().getDio().post(
           "api/Inner/AttendanceDailySaveAbsenceEntrance",
@@ -26,6 +28,7 @@ class AttendanceService {
   }
 
   Future<Response<dynamic>> saveSickEntrance(jsonObject) {
+    jsonObject["date"] = DateFormat('yyyy-mm-dd').format(DateTime.now());
     jsonObject["time"] = DateFormat('HH:mm').format(DateTime.now());
     return DioSingleton().getDio().post(
           "api/Inner/AttendanceDailySaveSickEntrance",
@@ -34,6 +37,7 @@ class AttendanceService {
   }
 
   Future<Response<dynamic>> saveAnyExit(jsonObject) {
+    jsonObject["date"] = DateFormat('yyyy-mm-dd').format(DateTime.now());
     jsonObject["time"] = DateFormat('HH:mm').format(DateTime.now());
     return DioSingleton().getDio().post(
           "api/Inner/AttendanceDailySaveAnyExit",
@@ -42,6 +46,8 @@ class AttendanceService {
   }
 
   Future<Response<dynamic>> saveFullAbsenceDay(jsonObject) {
+    jsonObject["date"] = DateFormat('yyyy-mm-dd').format(DateTime.now());
+    jsonObject["time"] = DateFormat('HH:mm').format(DateTime.now());
     return DioSingleton().getDio().post(
           "api/Inner/AttendanceDailyFullAbsenceDay",
       data: jsonObject
@@ -49,6 +55,8 @@ class AttendanceService {
   }
 
   Future<Response<dynamic>> saveFullSickDay(jsonObject) {
+    jsonObject["date"] = DateFormat('yyyy-mm-dd').format(DateTime.now());
+    jsonObject["time"] = DateFormat('HH:mm').format(DateTime.now());
     return DioSingleton().getDio().post(
           "api/Inner/AttendanceDailyFullSickDay",
       data: jsonObject

@@ -14,23 +14,26 @@ class LoggedInUser {
   final int? regCoo;
   final bool? result;
   final String? message;
+  final bool? hasCard;
 
-  LoggedInUser(
-      {this.code,
-      this.userName,
-      this.idNumber,
-      this.firstName,
-      this.lastName,
-      this.cellPhone,
-      this.email,
-      this.isActive,
-      this.isAbroad,
-      this.isFemale,
-      this.userType,
-      this.apartmentCode,
-      this.regCoo,
-      this.result,
-      this.message});
+  LoggedInUser({
+    this.code,
+    this.userName,
+    this.idNumber,
+    this.firstName,
+    this.lastName,
+    this.cellPhone,
+    this.email,
+    this.isActive,
+    this.isAbroad,
+    this.isFemale,
+    this.userType,
+    this.apartmentCode,
+    this.regCoo,
+    this.result,
+    this.message,
+    this.hasCard,
+  });
 
   factory LoggedInUser.fromJson(Map<String, dynamic> parsedJson) {
     return LoggedInUser(
@@ -49,6 +52,7 @@ class LoggedInUser {
       regCoo: parsedJson['regCoo'],
       result: parsedJson['result'],
       message: parsedJson['message'],
+      hasCard: parsedJson['hasCard'],
     );
   }
 
@@ -68,5 +72,6 @@ class LoggedInUser {
         'regCoo': regCoo,
         'result': result,
         'message': message,
+        'hasCard': hasCard,
       };
 }

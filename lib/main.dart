@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 
 void main() async {
   await GetStorage.init();
@@ -40,7 +41,13 @@ class MyApp extends StatelessWidget {
       initialRoute: GetStorage().read(PREF_AUTH_KEY) != null ? getLoggedInUser().userType!.toLowerCase().contains('volunteer') ?
       '/daily_attendance': '/save_document' : '/login',
       getPages: routes,
-
+      routingCallback: (routing){
+        if(routing?.current == "/card_image"){
+          NoScreenshot.instance.screenshotOff();
+        } else {
+          NoScreenshot.instance.screenshotOn();
+        }
+      },
       debugShowCheckedModeBanner: false,
     );
   }

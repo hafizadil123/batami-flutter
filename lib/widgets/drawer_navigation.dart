@@ -131,19 +131,32 @@ class DrawerNavigation extends StatelessWidget {
       minLeadingWidth: 50.0,
       title: Text('לאתר אישי'),
       onTap: () async {
-        final Uri _url =
+        final Uri url =
             // Uri.parse('http://api.bat-ami.org.il/ApiTest/Account/Details');
             Uri.parse('http://api.bat-ami.org.il/Api/Account/Details');
-        if (await canLaunchUrl(_url)) {
+        if (await canLaunchUrl(url)) {
           await launchUrl(
-            _url,
+            url,
             mode: LaunchMode.externalApplication,
           );
         } else {
-          throw "Could not launch $_url";
+          throw "Could not launch $url";
         }
       },
     ),
+    (getLoggedInUser().hasCard ?? false)
+        ? ListTile(
+            leading: const Icon(
+              Icons.credit_card,
+              color: CustomColors.colorIcons,
+            ),
+            minLeadingWidth: 50.0,
+            title: const Text('כרטיס מתנדב'),
+            onTap: () {
+              Get.toNamed('/card_image');
+            },
+          )
+        : const SizedBox.shrink(),
     ListTile(
       leading: Icon(
         Icons.logout,

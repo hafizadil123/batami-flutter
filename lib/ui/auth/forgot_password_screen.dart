@@ -44,31 +44,31 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                     TextFormField(
                       controller: controller.usernameController,
                       keyboardType: TextInputType.number,
-                      cursorColor: CustomColors.colorSecondary,
+                      cursorColor: CustomColors.textColor,
                       style: const TextStyle(
-                          color: CustomColors.colorSecondary,
+                          color: CustomColors.textColor,
                           letterSpacing: 1.5),
                       decoration: const InputDecoration(
                         hintText: "תעודת זהות",
                         contentPadding: EdgeInsets.all(10.0),
-                        focusColor: CustomColors.colorSecondary,
+                        focusColor: CustomColors.textColor,
                         hintStyle:
-                            TextStyle(color: CustomColors.colorSecondary),
+                            TextStyle(color: CustomColors.textColor),
                       ),
                     ),
                     TextFormField(
                       controller: controller.contactInfoController,
                       keyboardType: TextInputType.text,
-                      cursorColor: CustomColors.colorSecondary,
+                      cursorColor: CustomColors.textColor,
                       style: const TextStyle(
-                          color: CustomColors.colorSecondary,
+                          color: CustomColors.textColor,
                           letterSpacing: 1.5),
                       decoration: const InputDecoration(
                         hintText: "דואל / נייד",
                         contentPadding: EdgeInsets.all(10.0),
-                        focusColor: CustomColors.colorSecondary,
+                        focusColor: CustomColors.textColor,
                         hintStyle:
-                            TextStyle(color: CustomColors.colorSecondary),
+                            TextStyle(color: CustomColors.textColor),
                       ),
                     ),
                     ElevatedButton(
@@ -95,7 +95,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: CustomColors.colorSecondary,
+                            backgroundColor: CustomColors.colorSecondary,
                             fixedSize: const Size.fromWidth(250)),
                         child: const Text(
                           "כניסה",

@@ -40,31 +40,31 @@ class LoginScreen extends GetView<LoginController> {
                     TextFormField(
                       controller: controller.usernameController,
                       keyboardType: TextInputType.number,
-                      cursorColor: CustomColors.colorSecondary,
+                      cursorColor: CustomColors.white,
                       style: const TextStyle(
-                          color: CustomColors.colorSecondary,
+                          color: CustomColors.white,
                           letterSpacing: 1.5),
                       decoration: const InputDecoration(
                         hintText: "תעודת זהות",
                         contentPadding: EdgeInsets.all(10.0),
-                        focusColor: CustomColors.colorSecondary,
+                        focusColor: CustomColors.white,
                         hintStyle:
-                            TextStyle(color: CustomColors.colorSecondary),
+                            TextStyle(color: CustomColors.white),
                       ),
                     ),
                     TextFormField(
                       controller: controller.passwordController,
                       keyboardType: TextInputType.text,
-                      cursorColor: CustomColors.colorSecondary,
+                      cursorColor: CustomColors.white,
                       style: const TextStyle(
-                          color: CustomColors.colorSecondary,
+                          color: CustomColors.white,
                           letterSpacing: 1.5),
                       decoration: const InputDecoration(
                         hintText: "סיסמה",
                         contentPadding: EdgeInsets.all(10.0),
-                        focusColor: CustomColors.colorSecondary,
+                        focusColor: CustomColors.white,
                         hintStyle:
-                            TextStyle(color: CustomColors.colorSecondary),
+                            TextStyle(color: CustomColors.white),
                       ),
                       obscureText: true,
                     ),
@@ -89,7 +89,7 @@ class LoginScreen extends GetView<LoginController> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: CustomColors.colorSecondary,
+                            backgroundColor: CustomColors.colorSecondary,
                             fixedSize: const Size.fromWidth(250)),
                         child: const Text(
                           "כניסה",

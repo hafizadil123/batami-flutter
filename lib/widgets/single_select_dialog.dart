@@ -17,7 +17,7 @@ class SingleSelectDialog extends StatelessWidget {
       readOnly: true,
       controller: controller,
       keyboardType: TextInputType.text,
-      cursorColor: CustomColors.colorSecondary,
+      cursorColor: CustomColors.textColor,
       style: const TextStyle(letterSpacing: 1.5),
 
     validator: (value) {
