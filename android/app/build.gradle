@@ -54,7 +54,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("D:\\batami\\jks\\BaMobile-release-key.keystore")
+            storeFile file("../../jks/BaMobile-release-key.keystore")
             storePassword "Troz357!"
             keyAlias "alias_name"
             keyPassword "Troz357!"
