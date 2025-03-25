@@ -2,6 +2,9 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
+
 }
 
 def localProperties = new Properties()
@@ -25,8 +28,8 @@ if (flutterVersionName == null) {
 android {
     namespace "io.cordova.Batami"
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
-
+//    ndkVersion flutter.ndkVersion
+//    ndkVersion = "27.0.12077973"
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -75,6 +78,3 @@ flutter {
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 }
-
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
