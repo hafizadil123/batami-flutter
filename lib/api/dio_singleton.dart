@@ -10,6 +10,7 @@ import 'services/auth_service.dart';
 
 class DioSingleton {
   static final DioSingleton _dio_singleton = DioSingleton._internal();
+  static Response<dynamic>? lastResponse;
 
   factory DioSingleton() {
     return _dio_singleton;
@@ -33,11 +34,12 @@ class DioSingleton {
 
         return handler.next(options);
       }, onResponse: (response, handler) {
+        lastResponse = response;
         print(response.runtimeType.toString());
         return handler.next(response);
       }, onError: (DioException e, handler) {
         if (e.response != null) {
-          // handleResponseErrors(e.response!.statusCode!);
+          GlobalService.logError(e,lastResponse);        // handleResponseErrors(e.response!.statusCode!);
         }
         return handler.next(e); //continue
       }));
@@ -55,6 +57,12 @@ class DioSingleton {
 
     return options;
   }
+
+  void responseInterceptor(Response response) {
+    print("Response Status: ${response.statusCode}");
+    print("Response Data: ${response.data}");
+  }
+
 
   AuthService getAuthService() {
     return AuthService();
