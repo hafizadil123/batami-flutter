@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:batami/api/dio_singleton.dart';
 import 'package:batami/helpers/utils.dart';
@@ -34,7 +33,7 @@ class GlobalService{
         "error": e.message,
         "statusCode": e.response?.statusCode,
         "response": responseData,
-        "stackTrace": e.stackTrace?.toString(),      }
+        "stackTrace": e.stackTrace.toString(),      }
     };
     print("LogData ${logData}");
 
