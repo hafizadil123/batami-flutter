@@ -1,20 +1,24 @@
-import 'dart:io';
-
 import 'package:batami/api/dio_singleton.dart';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as dio;
 
-class GlobalService{
-  Future<Response<dynamic>> getData() {
+class GlobalService {
+  Future<dio.Response<dynamic>> getData() {
     return DioSingleton().getDio().post(
-      "api/Inner/GetData",
-    );
+          "api/Inner/GetData",
+        );
   }
 
-  Future<Response<dynamic>> getVolunteerCard() {
+  Future<dio.Response<dynamic>> getVolunteerCard() {
     return DioSingleton().getDio().post(
-      "mobile/GetVolunteerCard",
-      options: Options(responseType: ResponseType.bytes),
-    );
+          "mobile/GetVolunteerCard",
+          options: dio.Options(responseType: dio.ResponseType.bytes),
+        );
   }
 
+  Future<dio.Response<dynamic>> logAPIError(jsonObject) async {
+    return DioSingleton().getDio().post(
+          "api/Inner/loginfo",
+          data: jsonObject
+        );
+  }
 }
