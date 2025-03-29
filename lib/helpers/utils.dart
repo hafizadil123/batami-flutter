@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:batami/api/dio_singleton.dart';
 import 'package:batami/helpers/constants.dart';
 import 'package:batami/model/auth/loggedin_user_response.dart';
 import 'package:batami/model/global/get_data_response.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -78,4 +80,46 @@ Widget textWithHeading(String? heading, String? text){
       ],
     ),
   );
+}
+
+void callLogErrorAPI(
+    {dio.DioException? exception, dio.Response<dynamic>? apiResponse}) async {
+  String page = Get.currentRoute;
+  String apiEndpoint = "";
+  String apiResponseData = "";
+  String username = "";
+
+  if (exception != null) {
+    apiEndpoint = exception.requestOptions.path;
+    apiResponseData = exception.response.toString();
+  } else if (apiResponse != null) {
+    apiEndpoint = apiResponse.requestOptions.path;
+    apiResponseData = apiResponse.data?.toString() ?? "No response received";
+  }
+
+  if (GetStorage().read(PREF_AUTH_KEY) != null) {
+    username = getLoggedInUser().userName ?? "";
+  }
+
+  Map<String, String> logData = {
+    "username": username,
+    "page": page,
+    "action": apiEndpoint,
+    "data": apiResponseData
+  };
+  print("LogData ${logData}");
+
+  var response = await DioSingleton()
+      .getGlobalService()
+      .logAPIError(logData)
+      .catchError((error) {
+    print(error);
+    return error;
+  });
+
+  if (response.statusCode != null &&
+      response.statusCode! >= 200 &&
+      response.statusCode! < 300) {
+    print(response);
+  }
 }

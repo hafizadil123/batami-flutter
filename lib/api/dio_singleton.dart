@@ -3,6 +3,7 @@ import 'package:batami/api/services/attendance_service.dart';
 import 'package:batami/api/services/document_service.dart';
 import 'package:batami/api/services/global_service.dart';
 import 'package:batami/helpers/constants.dart';
+import 'package:batami/helpers/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -10,7 +11,6 @@ import 'services/auth_service.dart';
 
 class DioSingleton {
   static final DioSingleton _dio_singleton = DioSingleton._internal();
-  static Response<dynamic>? lastResponse;
 
   factory DioSingleton() {
     return _dio_singleton;
@@ -34,12 +34,19 @@ class DioSingleton {
 
         return handler.next(options);
       }, onResponse: (response, handler) {
-        lastResponse = response;
-        print(response.runtimeType.toString());
+
+        if (response.statusCode != null &&
+            response.statusCode! >= 200 &&
+            response.statusCode! < 300) {
+          print(response.runtimeType.toString());
+        } else {
+          callLogErrorAPI(apiResponse: response);
+        }
         return handler.next(response);
       }, onError: (DioException e, handler) {
         if (e.response != null) {
-          GlobalService.logError(e,lastResponse);        // handleResponseErrors(e.response!.statusCode!);
+          callLogErrorAPI(exception: e);
+          // handleResponseErrors(e.response!.statusCode!);
         }
         return handler.next(e); //continue
       }));
