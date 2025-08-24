@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CardImageScreen extends GetView<CardImageController> {
-  const CardImageScreen({Key? key}) : super(key: key);
+  const CardImageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class CardImageScreen extends GetView<CardImageController> {
         titleTextStyle: TextStyle(fontSize: 15.0),
       ),
       body: Obx(
-        () => Container(
+        () => controller.cardImgBytes.value.isNotEmpty ? Container(
           height: double.infinity,
           width: double.infinity,
           decoration: BoxDecoration(
@@ -29,7 +29,7 @@ class CardImageScreen extends GetView<CardImageController> {
               alignment: Alignment.center,
             ),
           ),
-        ),
+        ) : SizedBox.shrink(),
       ),
 
 

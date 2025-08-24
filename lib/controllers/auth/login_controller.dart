@@ -22,7 +22,7 @@ class LoginController extends GetxController {
     Map<String, dynamic> params = {};
 
     // params["username"] = username + "^13";
-    params["username"] = username + "^14";
+    params["username"] = username + "^15";
     params["password"] = password;
     params["grant_type"] = "password";
 

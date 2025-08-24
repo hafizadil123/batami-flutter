@@ -15,7 +15,7 @@ class GlobalService {
         );
   }
 
-  Future<dio.Response<dynamic>> logAPIError(jsonObject) async {
+  Future<dio.Response<dynamic>> logAPIError(jsonObject) {
     return DioSingleton().getDio().post(
           "api/Inner/loginfo",
           data: jsonObject

@@ -63,7 +63,6 @@ Widget getLoadingBar() {
 }
 
 logoutAndGoToLogin() {
-  // GetStorage().erase().then((value) => Get.offAll(() => LoginScreen(), binding: LoginBinding()));
   GetStorage().erase().then((value) => Get.offAllNamed('/login'));
 }
 

@@ -98,7 +98,7 @@ class DailyAttendanceController extends GetxController {
     var response;
 
     Map<String, dynamic> map = {};
-
+    map["workActivityNote"] = notesController.text.trim();
 
     switch (actionType) {
       case "attendance":
@@ -107,10 +107,6 @@ class DailyAttendanceController extends GetxController {
           Get.defaultDialog(title: "", middleText: "שדה הערות נדרש");
         } else {
           map["workActivityCode"] = selectedWorkActivity.value.id;
-          map["workActivityNote"] = notesController.text.trim();
-
-          print(map);
-
           response = await DioSingleton()
               .getAttendanceService()
               .saveAttendanceEntrance(map);
@@ -118,13 +114,11 @@ class DailyAttendanceController extends GetxController {
         break;
       case "absence":
         map["absenceCode"] = selectedAbsenceType.value.id;
-        map["workActivityNote"] = notesController.text.trim();
         response = await DioSingleton()
             .getAttendanceService()
             .saveAbsenceEntrance(map);
         break;
       case "sick":
-        map["workActivityNote"] = notesController.text.trim();
         response =
             await DioSingleton().getAttendanceService().saveSickEntrance(map);
         break;
@@ -143,8 +137,10 @@ class DailyAttendanceController extends GetxController {
       SaveShiftResponse saveShiftResponse =
           SaveShiftResponse.fromJson(response.data);
 
-      if(saveShiftResponse.lockScreenInfo?.isLockScreen ?? false){
-        Get.offNamed("/lock_screen", parameters: {"lockScreenText": saveShiftResponse.lockScreenInfo!.lockScreenText!});
+      if (saveShiftResponse.lockScreenInfo?.isLockScreen ?? false) {
+        Get.offNamed("/lock_screen", parameters: {
+          "lockScreenText": saveShiftResponse.lockScreenInfo!.lockScreenText!
+        });
       }
 
       responseResult.value = saveShiftResponse.result ?? false;
@@ -191,6 +187,7 @@ class DailyAttendanceController extends GetxController {
     isLoading.value = true;
     var response;
     Map<String, dynamic> map = {};
+    map["workActivityNote"] = notesController.text.trim();
 
     switch (actionType) {
       case "absence":
@@ -217,8 +214,10 @@ class DailyAttendanceController extends GetxController {
       SaveShiftResponse saveShiftResponse =
           SaveShiftResponse.fromJson(response.data);
 
-      if(saveShiftResponse.lockScreenInfo?.isLockScreen ?? false){
-        Get.offNamed("/lock_screen", parameters: {"lockScreenText": saveShiftResponse.lockScreenInfo!.lockScreenText!});
+      if (saveShiftResponse.lockScreenInfo?.isLockScreen ?? false) {
+        Get.offNamed("/lock_screen", parameters: {
+          "lockScreenText": saveShiftResponse.lockScreenInfo!.lockScreenText!
+        });
       }
 
       responseResult.value = saveShiftResponse.result ?? false;

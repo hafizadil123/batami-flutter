@@ -7,11 +7,6 @@ class CardImageController extends GetxController {
   var isLoading = false.obs;
   var cardImgBytes = Uint8List.fromList([]).obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   void getVolunteerCard() async {
     isLoading.value = true;
     var response = await DioSingleton().getGlobalService().getVolunteerCard();
