@@ -24,6 +24,7 @@ class LoginController extends GetxController {
     // params["username"] = username + "^13";
     params["username"] = username + "^15";
     params["password"] = password;
+    params["deviceToken"] = GetStorage().read(PREF_DEVICE_TOKEN) ?? "";
     params["grant_type"] = "password";
 
     DioSingleton().getAuthService().login(params).then((res) {

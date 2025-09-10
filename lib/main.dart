@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:batami/firebase_options.dart';
 import 'package:batami/helpers/constants.dart';
 import 'package:batami/helpers/routes.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:no_screenshot/no_screenshot.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   await GetStorage.init();
@@ -16,13 +19,35 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // You may set the permission requests to "provisional" which allows the user to choose what type
+// of notifications they would like to receive once the user receives a notification.
+final notificationSettings = await FirebaseMessaging.instance.requestPermission(provisional: true);
+
+// For apple platforms, ensure the APNS token is available before making any FCM plugin API calls
+final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+if (apnsToken != null) {
+ // APNS token is available, make FCM plugin API requests...
+}
+
+FirebaseMessaging.instance.onTokenRefresh
+    .listen((fcmToken) async {
+       await GetStorage().write(PREF_DEVICE_TOKEN, fcmToken);
+    })
+    .onError((err) {
+      // Error getting token.
+    });
+
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
   };
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
-  runApp(MyApp());
+  try {
+    runApp(MyApp());
+  } catch(e) {
+    log("Error during init: $e");
+  }
 }
 
 class MyApp extends StatelessWidget {
