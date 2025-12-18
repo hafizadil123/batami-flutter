@@ -21,7 +21,7 @@ class LoginController extends GetxController {
 
     Map<String, dynamic> params = {};
 
-    params["username"] = "$username^15";
+    params["username"] = "$username^16";
     params["password"] = password;
     params["device_token"] = GetStorage().read(PREF_DEVICE_TOKEN) ?? "";
     params["grant_type"] = "password";
