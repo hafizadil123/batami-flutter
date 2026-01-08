@@ -26,7 +26,7 @@ void main() async {
   const AndroidInitializationSettings androidInit =
   AndroidInitializationSettings('@mipmap/ic_launcher');
   const InitializationSettings initSettings =
-  InitializationSettings(android: androidInit);
+  InitializationSettings(android: androidInit, iOS: DarwinInitializationSettings());
   await flutterLocalNotificationsPlugin.initialize(initSettings);
 
   await FirebaseMessaging.instance.requestPermission(provisional: true);
