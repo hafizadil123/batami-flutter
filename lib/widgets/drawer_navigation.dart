@@ -132,7 +132,7 @@ class DrawerNavigation extends StatelessWidget {
       title: Text('לאתר אישי'),
       onTap: () async {
         final Uri url =
-            Uri.parse('https://mobile.bat-ami.org.il/Api/Account/Details');
+            Uri.parse('https://mobile.bat-ami.org.il/Account/Details');
         if (await canLaunchUrl(url)) {
           await launchUrl(
             url,
@@ -177,7 +177,7 @@ class DrawerNavigation extends StatelessWidget {
       title: Text('לאתר אישי'),
       onTap: () async {
         final Uri _url =
-            Uri.parse('https://mobile.bat-ami.org.il/Api/Account/Details');
+            Uri.parse('https://mobile.bat-ami.org.il/Account/Details');
         if (await canLaunchUrl(_url)) {
           await launchUrl(
             _url,
